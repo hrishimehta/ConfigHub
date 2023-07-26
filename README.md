@@ -1,1 +1,1 @@
-# ConfigHub
+# ConfigHub -Configuration as a Service
