@@ -1,0 +1,36 @@
+# Ignore Visual Studio temporary files, build results, and other generated files
+.vs/
+*.suo
+*.user
+*.userprefs
+*.obj
+*.pdb
+*.cache
+*.dll
+*.exe
+*.log
+*.bin
+*.bak
+*.swp
+*.ipdb
+*.dnn
+*.publish.xml
+*.config
+
+# Ignore NuGet Packages
+## Example for packages directory:
+# packages/
+
+# Ignore build output
+[Dd]ebug/
+[Rr]elease/
+
+# Ignore node_modules (npm)
+node_modules/
+
+# Ignore bower_components
+bower_components/
+
+# Ignore logs and local application data
+Logs/
+*.log
