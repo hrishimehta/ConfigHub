@@ -25,6 +25,9 @@
 [Dd]ebug/
 [Rr]elease/
 
+src/ConfigHub.Client/obj/
+src/ConfigHub.API/obj/
+
 # Ignore node_modules (npm)
 node_modules/
 

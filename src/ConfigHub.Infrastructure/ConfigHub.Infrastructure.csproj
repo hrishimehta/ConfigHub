@@ -1,6 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\ConfigHub.Domain\ConfigHub.Domain.csproj" />
+    <ProjectReference Include="..\ConfigHub.Mongo\ConfigHub.Mongo.csproj" />
     <ProjectReference Include="..\ConfigHub.Shared\ConfigHub.Shared.csproj" />
   </ItemGroup>
 
