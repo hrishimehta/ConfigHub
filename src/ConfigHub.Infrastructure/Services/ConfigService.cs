@@ -1,6 +1,6 @@
 ﻿using ConfigHub.Domain.Entity;
+using ConfigHub.Domain.Interface;
 using ConfigHub.Infrastructure.Contract;
-using ConfigHub.Infrastructure.Interface;
 using ConfigHub.Mongo;
 using ConfigHub.Mongo.Interface;
 using MongoDB.Driver;

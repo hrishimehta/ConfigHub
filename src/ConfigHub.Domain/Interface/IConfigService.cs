@@ -1,7 +1,6 @@
 ﻿using ConfigHub.Domain.Entity;
-using System.Security.Cryptography.X509Certificates;
 
-namespace ConfigHub.Infrastructure.Interface
+namespace ConfigHub.Domain.Interface
 {
     public interface IConfigService
     {

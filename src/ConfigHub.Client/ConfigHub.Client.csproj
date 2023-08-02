@@ -1,6 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ConfigHub.Shared\ConfigHub.Shared.csproj" />
     <ProjectReference Include="..\ConfigHub.API\ConfigHub.API.csproj" />
   </ItemGroup>

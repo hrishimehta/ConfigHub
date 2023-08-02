@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Mongo.Tests\\ConfigHub.Mongo.Tests.csproj": {}
+    "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Mongo.Tests\\ConfigHub.Mongo.Tests.csproj": {}
   },
   "projects": {
-    "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Mongo\\ConfigHub.Mongo.csproj": {
+    "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Mongo\\ConfigHub.Mongo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Mongo\\ConfigHub.Mongo.csproj",
+        "projectUniqueName": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Mongo\\ConfigHub.Mongo.csproj",
         "projectName": "ConfigHub.Mongo",
-        "projectPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Mongo\\ConfigHub.Mongo.csproj",
+        "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Mongo\\ConfigHub.Mongo.csproj",
         "packagesPath": "C:\\Users\\hrish\\.nuget\\packages\\",
-        "outputPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Mongo\\obj\\",
+        "outputPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Mongo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\hrish\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,12 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.20.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -59,14 +65,14 @@
         }
       }
     },
-    "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Mongo.Tests\\ConfigHub.Mongo.Tests.csproj": {
+    "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Mongo.Tests\\ConfigHub.Mongo.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Mongo.Tests\\ConfigHub.Mongo.Tests.csproj",
+        "projectUniqueName": "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Mongo.Tests\\ConfigHub.Mongo.Tests.csproj",
         "projectName": "ConfigHub.Mongo.Tests",
-        "projectPath": "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Mongo.Tests\\ConfigHub.Mongo.Tests.csproj",
+        "projectPath": "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Mongo.Tests\\ConfigHub.Mongo.Tests.csproj",
         "packagesPath": "C:\\Users\\hrish\\.nuget\\packages\\",
-        "outputPath": "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Mongo.Tests\\obj\\",
+        "outputPath": "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Mongo.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\hrish\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -83,8 +89,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Mongo\\ConfigHub.Mongo.csproj": {
-                "projectPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Mongo\\ConfigHub.Mongo.csproj"
+              "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Mongo\\ConfigHub.Mongo.csproj": {
+                "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Mongo\\ConfigHub.Mongo.csproj"
               }
             }
           }

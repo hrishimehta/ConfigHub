@@ -2059,10 +2059,25 @@
           "lib/net6.0/ZstdSharp.dll": {}
         }
       },
+      "ConfigHub.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "ConfigHub.Shared": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/ConfigHub.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ConfigHub.Domain.dll": {}
+        }
+      },
       "ConfigHub.Infrastructure/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "ConfigHub.Domain": "1.0.0",
+          "ConfigHub.Mongo": "1.0.0",
           "ConfigHub.Shared": "1.0.0",
           "MongoDB.Driver": "2.20.0"
         },
@@ -2071,6 +2086,19 @@
         },
         "runtime": {
           "bin/placeholder/ConfigHub.Infrastructure.dll": {}
+        }
+      },
+      "ConfigHub.Mongo/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "MongoDB.Driver": "2.20.0"
+        },
+        "compile": {
+          "bin/placeholder/ConfigHub.Mongo.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ConfigHub.Mongo.dll": {}
         }
       },
       "ConfigHub.Shared/1.0.0": {
@@ -6807,10 +6835,20 @@
         "zstdsharp.port.nuspec"
       ]
     },
+    "ConfigHub.Domain/1.0.0": {
+      "type": "project",
+      "path": "../../src/ConfigHub.Domain/ConfigHub.Domain.csproj",
+      "msbuildProject": "../../src/ConfigHub.Domain/ConfigHub.Domain.csproj"
+    },
     "ConfigHub.Infrastructure/1.0.0": {
       "type": "project",
       "path": "../../src/ConfigHub.Infrastructure/ConfigHub.Infrastructure.csproj",
       "msbuildProject": "../../src/ConfigHub.Infrastructure/ConfigHub.Infrastructure.csproj"
+    },
+    "ConfigHub.Mongo/1.0.0": {
+      "type": "project",
+      "path": "../../src/ConfigHub.Mongo/ConfigHub.Mongo.csproj",
+      "msbuildProject": "../../src/ConfigHub.Mongo/ConfigHub.Mongo.csproj"
     },
     "ConfigHub.Shared/1.0.0": {
       "type": "project",
@@ -6833,11 +6871,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Infrastructure.Tests\\ConfigHub.Infrastructure.Tests.csproj",
+      "projectUniqueName": "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Infrastructure.Tests\\ConfigHub.Infrastructure.Tests.csproj",
       "projectName": "ConfigHub.Infrastructure.Tests",
-      "projectPath": "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Infrastructure.Tests\\ConfigHub.Infrastructure.Tests.csproj",
+      "projectPath": "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Infrastructure.Tests\\ConfigHub.Infrastructure.Tests.csproj",
       "packagesPath": "C:\\Users\\hrish\\.nuget\\packages\\",
-      "outputPath": "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Infrastructure.Tests\\obj\\",
+      "outputPath": "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Infrastructure.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\hrish\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -6854,8 +6892,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Infrastructure\\ConfigHub.Infrastructure.csproj": {
-              "projectPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Infrastructure\\ConfigHub.Infrastructure.csproj"
+            "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Infrastructure\\ConfigHub.Infrastructure.csproj": {
+              "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Infrastructure\\ConfigHub.Infrastructure.csproj"
             }
           }
         }

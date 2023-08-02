@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Domain.Tests\\ConfigHub.Domain.Tests.csproj": {}
+    "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Domain.Tests\\ConfigHub.Domain.Tests.csproj": {}
   },
   "projects": {
-    "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Domain\\ConfigHub.Domain.csproj": {
+    "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Domain\\ConfigHub.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Domain\\ConfigHub.Domain.csproj",
+        "projectUniqueName": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Domain\\ConfigHub.Domain.csproj",
         "projectName": "ConfigHub.Domain",
-        "projectPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Domain\\ConfigHub.Domain.csproj",
+        "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Domain\\ConfigHub.Domain.csproj",
         "packagesPath": "C:\\Users\\hrish\\.nuget\\packages\\",
-        "outputPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Domain\\obj\\",
+        "outputPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\hrish\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj": {
-                "projectPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj"
+              "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj": {
+                "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj"
               }
             }
           }
@@ -63,14 +63,14 @@
         }
       }
     },
-    "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj": {
+    "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj",
+        "projectUniqueName": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj",
         "projectName": "ConfigHub.Shared",
-        "projectPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj",
+        "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj",
         "packagesPath": "C:\\Users\\hrish\\.nuget\\packages\\",
-        "outputPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Shared\\obj\\",
+        "outputPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\hrish\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -118,14 +118,14 @@
         }
       }
     },
-    "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Domain.Tests\\ConfigHub.Domain.Tests.csproj": {
+    "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Domain.Tests\\ConfigHub.Domain.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Domain.Tests\\ConfigHub.Domain.Tests.csproj",
+        "projectUniqueName": "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Domain.Tests\\ConfigHub.Domain.Tests.csproj",
         "projectName": "ConfigHub.Domain.Tests",
-        "projectPath": "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Domain.Tests\\ConfigHub.Domain.Tests.csproj",
+        "projectPath": "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Domain.Tests\\ConfigHub.Domain.Tests.csproj",
         "packagesPath": "C:\\Users\\hrish\\.nuget\\packages\\",
-        "outputPath": "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Domain.Tests\\obj\\",
+        "outputPath": "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Domain.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\hrish\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -142,8 +142,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Domain\\ConfigHub.Domain.csproj": {
-                "projectPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Domain\\ConfigHub.Domain.csproj"
+              "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Domain\\ConfigHub.Domain.csproj": {
+                "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Domain\\ConfigHub.Domain.csproj"
               }
             }
           }

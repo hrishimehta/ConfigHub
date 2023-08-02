@@ -2599,6 +2599,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "ConfigHub.Domain": "1.0.0",
+          "ConfigHub.Mongo": "1.0.0",
           "ConfigHub.Shared": "1.0.0",
           "MongoDB.Driver": "2.20.0"
         },
@@ -2607,6 +2609,19 @@
         },
         "runtime": {
           "bin/placeholder/ConfigHub.Infrastructure.dll": {}
+        }
+      },
+      "ConfigHub.Mongo/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "MongoDB.Driver": "2.20.0"
+        },
+        "compile": {
+          "bin/placeholder/ConfigHub.Mongo.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ConfigHub.Mongo.dll": {}
         }
       },
       "ConfigHub.Shared/1.0.0": {
@@ -8124,6 +8139,11 @@
       "path": "../../src/ConfigHub.Infrastructure/ConfigHub.Infrastructure.csproj",
       "msbuildProject": "../../src/ConfigHub.Infrastructure/ConfigHub.Infrastructure.csproj"
     },
+    "ConfigHub.Mongo/1.0.0": {
+      "type": "project",
+      "path": "../../src/ConfigHub.Mongo/ConfigHub.Mongo.csproj",
+      "msbuildProject": "../../src/ConfigHub.Mongo/ConfigHub.Mongo.csproj"
+    },
     "ConfigHub.Shared/1.0.0": {
       "type": "project",
       "path": "../../src/ConfigHub.Shared/ConfigHub.Shared.csproj",
@@ -8145,11 +8165,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Client.Tests\\ConfigHub.Client.Tests.csproj",
+      "projectUniqueName": "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Client.Tests\\ConfigHub.Client.Tests.csproj",
       "projectName": "ConfigHub.Client.Tests",
-      "projectPath": "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Client.Tests\\ConfigHub.Client.Tests.csproj",
+      "projectPath": "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Client.Tests\\ConfigHub.Client.Tests.csproj",
       "packagesPath": "C:\\Users\\hrish\\.nuget\\packages\\",
-      "outputPath": "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Client.Tests\\obj\\",
+      "outputPath": "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Client.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\hrish\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -8166,8 +8186,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Client\\ConfigHub.Client.csproj": {
-              "projectPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Client\\ConfigHub.Client.csproj"
+            "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Client\\ConfigHub.Client.csproj": {
+              "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Client\\ConfigHub.Client.csproj"
             }
           }
         }

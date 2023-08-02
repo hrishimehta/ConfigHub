@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Infrastructure.Tests\\ConfigHub.Infrastructure.Tests.csproj": {}
+    "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Infrastructure.Tests\\ConfigHub.Infrastructure.Tests.csproj": {}
   },
   "projects": {
-    "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Infrastructure\\ConfigHub.Infrastructure.csproj": {
+    "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Domain\\ConfigHub.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Infrastructure\\ConfigHub.Infrastructure.csproj",
-        "projectName": "ConfigHub.Infrastructure",
-        "projectPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Infrastructure\\ConfigHub.Infrastructure.csproj",
+        "projectUniqueName": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Domain\\ConfigHub.Domain.csproj",
+        "projectName": "ConfigHub.Domain",
+        "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Domain\\ConfigHub.Domain.csproj",
         "packagesPath": "C:\\Users\\hrish\\.nuget\\packages\\",
-        "outputPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Infrastructure\\obj\\",
+        "outputPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\hrish\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,73 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj": {
-                "projectPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj"
+              "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj": {
+                "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Infrastructure\\ConfigHub.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Infrastructure\\ConfigHub.Infrastructure.csproj",
+        "projectName": "ConfigHub.Infrastructure",
+        "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Infrastructure\\ConfigHub.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\hrish\\.nuget\\packages\\",
+        "outputPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\hrish\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Domain\\ConfigHub.Domain.csproj": {
+                "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Domain\\ConfigHub.Domain.csproj"
+              },
+              "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Mongo\\ConfigHub.Mongo.csproj": {
+                "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Mongo\\ConfigHub.Mongo.csproj"
+              },
+              "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj": {
+                "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj"
               }
             }
           }
@@ -69,14 +134,75 @@
         }
       }
     },
-    "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj": {
+    "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Mongo\\ConfigHub.Mongo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj",
-        "projectName": "ConfigHub.Shared",
-        "projectPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj",
+        "projectUniqueName": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Mongo\\ConfigHub.Mongo.csproj",
+        "projectName": "ConfigHub.Mongo",
+        "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Mongo\\ConfigHub.Mongo.csproj",
         "packagesPath": "C:\\Users\\hrish\\.nuget\\packages\\",
-        "outputPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Shared\\obj\\",
+        "outputPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Mongo\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\hrish\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.20.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj",
+        "projectName": "ConfigHub.Shared",
+        "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Shared\\ConfigHub.Shared.csproj",
+        "packagesPath": "C:\\Users\\hrish\\.nuget\\packages\\",
+        "outputPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\hrish\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -124,14 +250,14 @@
         }
       }
     },
-    "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Infrastructure.Tests\\ConfigHub.Infrastructure.Tests.csproj": {
+    "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Infrastructure.Tests\\ConfigHub.Infrastructure.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Infrastructure.Tests\\ConfigHub.Infrastructure.Tests.csproj",
+        "projectUniqueName": "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Infrastructure.Tests\\ConfigHub.Infrastructure.Tests.csproj",
         "projectName": "ConfigHub.Infrastructure.Tests",
-        "projectPath": "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Infrastructure.Tests\\ConfigHub.Infrastructure.Tests.csproj",
+        "projectPath": "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Infrastructure.Tests\\ConfigHub.Infrastructure.Tests.csproj",
         "packagesPath": "C:\\Users\\hrish\\.nuget\\packages\\",
-        "outputPath": "C:\\MyProjects\\ConfigHub\\tests\\ConfigHub.Infrastructure.Tests\\obj\\",
+        "outputPath": "C:\\MyGitHub\\ConfigHub\\tests\\ConfigHub.Infrastructure.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\hrish\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -148,8 +274,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Infrastructure\\ConfigHub.Infrastructure.csproj": {
-                "projectPath": "C:\\MyProjects\\ConfigHub\\src\\ConfigHub.Infrastructure\\ConfigHub.Infrastructure.csproj"
+              "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Infrastructure\\ConfigHub.Infrastructure.csproj": {
+                "projectPath": "C:\\MyGitHub\\ConfigHub\\src\\ConfigHub.Infrastructure\\ConfigHub.Infrastructure.csproj"
               }
             }
           }
