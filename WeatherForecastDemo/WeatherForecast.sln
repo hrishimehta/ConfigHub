@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigHubDemo.WebAPI", "ConfigHubDemo.WebAPI\ConfigHubDemo.WebAPI.csproj", "{04FEFADB-710C-438D-9DFF-67C72AEA886A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherForecast.WebAPI", "ConfigHubDemo.WebAPI\WeatherForecast.WebAPI.csproj", "{04FEFADB-710C-438D-9DFF-67C72AEA886A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigHub.Client", "..\src\ConfigHub.Client\ConfigHub.Client.csproj", "{91F5FF1A-EA93-43C1-8693-95E1CB62BA2F}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigHub.Mongo", "..\src\ConfigHub.Mongo\ConfigHub.Mongo.csproj", "{8F01F756-4884-4860-96AF-4F606B3E7ACE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigHub.Shared", "..\src\ConfigHub.Shared\ConfigHub.Shared.csproj", "{E7EBFA1C-C9DA-4245-9C26-6373CE730340}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extra", "Extra", "{9BFECB0C-A335-4B95-8234-E1DE431D7C20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{91F5FF1A-EA93-43C1-8693-95E1CB62BA2F} = {9BFECB0C-A335-4B95-8234-E1DE431D7C20}
+		{CDFEECDF-E597-4A42-AA8E-1460D416CF8A} = {9BFECB0C-A335-4B95-8234-E1DE431D7C20}
+		{7F1E4413-5CCD-4AD4-9CA6-2E2CDFC1F75C} = {9BFECB0C-A335-4B95-8234-E1DE431D7C20}
+		{8F01F756-4884-4860-96AF-4F606B3E7ACE} = {9BFECB0C-A335-4B95-8234-E1DE431D7C20}
+		{E7EBFA1C-C9DA-4245-9C26-6373CE730340} = {9BFECB0C-A335-4B95-8234-E1DE431D7C20}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A412F8F-F322-4A7E-9EF6-710FE3D715DA}

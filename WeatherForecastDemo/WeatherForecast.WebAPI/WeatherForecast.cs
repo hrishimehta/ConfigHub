@@ -1,4 +1,4 @@
-namespace ConfigHubDemo.WebAPI;
+namespace WeatherForecast.WebAPI;
 
 public class WeatherForecast
 {

@@ -1,7 +1,7 @@
 using ConfigHub.Client;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ConfigHubDemo.WebAPI.Controllers;
+namespace WeatherForecast.WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -24,7 +24,8 @@ public class WeatherForecastController : ControllerBase
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<IEnumerable<WeatherForecast>> Get()
     {
-        var key = await this.configHubClient.GetConfigItemByKeyAndComponent("WeatherAPI", "WeatherProviderUrl");
+        var weatherProviderUrl = await configHubClient.GetConfigItemByKeyAndComponent("WeatherAPI", "WeatherProviderUrl");
+
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
             Date = DateTime.Now.AddDays(index),
