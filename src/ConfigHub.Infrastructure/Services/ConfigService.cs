@@ -9,12 +9,13 @@ namespace ConfigHub.Infrastructure.Services
 {
     public class ConfigService : IConfigService
     {
-        private readonly IMongoRepository<ConfigItem> _configItemRepository;
+        private readonly IMongoRepository<ConfigItem> configItemRepository;
         private readonly IMongoRepository<CertificateMappingDocument> certificateMappingRepo;
 
         public ConfigService(IMongoRepositoryFactory mongoRepositoryFactory)
         {
-            _configItemRepository = mongoRepositoryFactory.GetRepository<ConfigItem>(DBNames.ConfigHubDBName, CollectionName.ConfigCollectionName);
+            configItemRepository = mongoRepositoryFactory.GetRepository<ConfigItem>(DBNames.ConfigHubDBName, CollectionName.ConfigCollectionName);
+            certificateMappingRepo = mongoRepositoryFactory.GetRepository<CertificateMappingDocument>(DBNames.ConfigHubDBName, CollectionName.ApplicationCertificateInfo);
         }
 
         public async Task<ConfigItem> GetConfigItemByKeyAndComponent(string applicationId, string componentId, string key)
@@ -23,7 +24,7 @@ namespace ConfigHub.Infrastructure.Services
                     Builders<ConfigItem>.Filter.Eq("ApplicationName", applicationId) &
                     Builders<ConfigItem>.Filter.Eq("Key", key) ;
 
-            var configItem = await _configItemRepository.FindAllAsync(filter);
+            var configItem = await configItemRepository.FindAllAsync(filter);
 
             return configItem.FirstOrDefault();
         }
@@ -40,7 +41,7 @@ namespace ConfigHub.Infrastructure.Services
 
         public async Task<IEnumerable<ConfigItem>> GetAllConfigItemsByComponent(string applicationId, string componentId)
         {
-            var configItems = await _configItemRepository.FindAllAsync(c => c.ApplicationName == applicationId &&
+            var configItems = await configItemRepository.FindAllAsync(c => c.ApplicationName == applicationId &&
                                                                  c.Component == componentId);
 
             return configItems;

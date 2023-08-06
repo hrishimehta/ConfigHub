@@ -1,4 +1,5 @@
 ﻿using ConfigHub.Domain.Entity;
+using ConfigHub.Shared;
 using ConfigHub.Shared.Options;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
@@ -18,10 +19,10 @@ namespace ConfigHub.Client
 
             if (configHubOptions.ClientCertificate != null)
             {
-                _httpClient.DefaultRequestHeaders.Add("X-Client-Cert", Convert.ToBase64String(configHubOptions.ClientCertificate.RawData));
+                _httpClient.DefaultRequestHeaders.Add(Constants.ClientCertificateHeader, Convert.ToBase64String(configHubOptions.ClientCertificate.RawData));
             }
 
-            _httpClient.DefaultRequestHeaders.Add("X-ApplicationId", configHubOptions.ApplicationId);
+            _httpClient.DefaultRequestHeaders.Add(Constants.ApplicationNameHeader, configHubOptions.ApplicationName);
         }
 
         public async Task<ConfigItem> GetConfigItemByKeyAndComponent(string component, string key)
@@ -31,8 +32,14 @@ namespace ConfigHub.Client
                 var response = await _httpClient.GetAsync($"api/Config/component/{component}/key/{key}");
                 response.EnsureSuccessStatusCode();
 
+                var jsonSerializerOptions = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
+
                 var json = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<ConfigItem>(json);
+                return JsonSerializer.Deserialize<ConfigItem>(json, jsonSerializerOptions);
             }
             catch (HttpRequestException)
             {

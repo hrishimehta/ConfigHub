@@ -6,7 +6,7 @@ namespace ConfigHub.Shared.Options
     {
         public bool UseConfigHubService { get; set; } = true;
         public string BaseAddress { get; set; } // ConfigHub Service url
-        public string ApplicationId { get; set; } // ConfigHub Service url
+        public string ApplicationName { get; set; } // ConfigHub Service url
         public string ConnectionString { get; set; } // MongoDB connection string
         public string DatabaseName { get; set; } // MongoDB database name
         public string ConfigCollectionName { get; set; } // MongoDB collection name for configuration data

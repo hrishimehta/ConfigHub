@@ -46,3 +46,5 @@ Logs/
 /tests/ConfigHub.Infrastructure.Tests/obj
 /tests/ConfigHub.Mongo.Tests/obj
 /tests/ConfigHub.Shared.Tests/obj
+/ConfigHubDemoApp/ConfigHubDemoApp.ConsoleApp/obj
+/ConfigHubDemo/ConfigHubDemo.WebAPI/obj

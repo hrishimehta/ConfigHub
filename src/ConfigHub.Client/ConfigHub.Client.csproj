@@ -5,8 +5,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ConfigHub.Domain\ConfigHub.Domain.csproj" />
+    <ProjectReference Include="..\ConfigHub.Infrastructure\ConfigHub.Infrastructure.csproj" />
     <ProjectReference Include="..\ConfigHub.Shared\ConfigHub.Shared.csproj" />
-    <ProjectReference Include="..\ConfigHub.API\ConfigHub.API.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

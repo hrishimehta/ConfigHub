@@ -8,7 +8,8 @@ namespace ConfigHub.Shared
 {
     public static class Constants
     {
-       
-       
+        public const string ApplicationNameHeader = "X-ApplicationId"; 
+        public const string ClientCertificateHeader = "X-Client-Cert";
+
     }
 }

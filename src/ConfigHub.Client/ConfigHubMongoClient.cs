@@ -18,12 +18,12 @@ namespace ConfigHub.Client
 
         public async Task<ConfigItem> GetConfigItemByKeyAndComponent(string component, string key)
         {
-            return await _configService.GetConfigItemByKeyAndComponent(_configHubOptions.ApplicationId, component, key);
+            return await _configService.GetConfigItemByKeyAndComponent(_configHubOptions.ApplicationName, component, key);
         }
 
         public async Task<List<ConfigItem>> GetAllConfigItemsByComponent(string component)
         {
-            return (await _configService.GetAllConfigItemsByComponent(_configHubOptions.ApplicationId, component).ConfigureAwait(false)).ToList();
+            return (await _configService.GetAllConfigItemsByComponent(_configHubOptions.ApplicationName, component).ConfigureAwait(false)).ToList();
         }
     }
 }

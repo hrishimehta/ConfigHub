@@ -2,6 +2,7 @@
 
 namespace ConfigHub.Domain.Entity
 {
+    [Serializable]
     public class ConfigItem
     {
         public string Key { get; set; }

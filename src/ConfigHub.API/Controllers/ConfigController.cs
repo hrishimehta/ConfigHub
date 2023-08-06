@@ -1,6 +1,8 @@
 ﻿using ConfigHub.Domain.Interface;
+using ConfigHub.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata;
 
 namespace ConfigHub.API.Controllers
 {
@@ -23,7 +25,7 @@ namespace ConfigHub.API.Controllers
         {
             try
             {
-                var applicationId = this.GetApplicationId();
+                var applicationId = this.GetApplicationName();
                 var config = await _configService.GetConfigItemByKeyAndComponent(applicationId, component, key);
                 if (config != null)
                 {
@@ -47,7 +49,7 @@ namespace ConfigHub.API.Controllers
         {
             try
             {
-                var applicationId = this.GetApplicationId();
+                var applicationId = this.GetApplicationName();
                 var configs = await _configService.GetAllConfigItemsByComponent(applicationId, component);
                 if (configs != null && configs.Count() > 0)
                 {
@@ -65,10 +67,9 @@ namespace ConfigHub.API.Controllers
             }
         }
 
-        private string GetApplicationId()
+        private string GetApplicationName()
         {
-            // Assuming the application ID is provided as a header named "X-ApplicationId"
-            return Request.Headers["X-ApplicationId"].ToString();
+            return Request.Headers[Constants.ApplicationNameHeader].ToString();
         }
     }
 }
