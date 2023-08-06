@@ -38,37 +38,36 @@ The ConfigHubClient is a client library that allows applications to consume the 
 
 ### Register ConfigHubClient with Dependency Injection
 
-In your application's Startup.cs or a similar configuration file, register the ConfigHubClient with dependency injection. You'll need to pass the base URL of the ConfigHub API, client certificate, and application ID as configuration parameters. The client certificate and application ID are used for authentication when making requests to the ConfigHub API.
+In your application's Startup.cs or a similar configuration file, register the ConfigHubClient with dependency injection.
 
-Here's an example of how to register the ConfigHubClient in a .NET Core application:
+#### Scenario 1: Using ConfigHub Service
 
+If you want to use the ConfigHub service for configuration data, provide the required options such as `BaseAddress`, `ClientCertificate`, and `ApplicationId`.
+
+```markdown
 ```csharp
-using ConfigHub.Client;
-using Microsoft.Extensions.DependencyInjection;
-
-public class Startup
+services.AddConfigHubClient(new ConfigHubOptions
 {
-    public void ConfigureServices(IServiceCollection services)
-    {
-        // Replace these values with your actual ConfigHub API URL, client certificate, and application ID
-        string configHubApiUrl = "https://your-confighub-api.com";
-        byte[] clientCertificateBytes = LoadClientCertificateBytes();
-        string applicationId = "YourApplicationId";
+    UseConfigHubService = true,
+    BaseAddress = "https://confighub.example.com",
+    ClientCertificate = new X509Certificate2("path/to/certificate.pfx", "certificatePassword"),
+    ApplicationId = "YourApplicationId"
+});
+```
 
-        // Register ConfigHubClient with dependency injection
-        services.AddConfigHubClient(configHubApiUrl, clientCertificateBytes, applicationId);
-    }
+#### Scenario 2: Using Direct MongoDB Connection
 
-    // Load client certificate bytes from file or any other source
-    private byte[] LoadClientCertificateBytes()
-    {
-        // Replace this with the actual logic to load the client certificate
-        // For example, you can read the certificate from a file or certificate store
-        // Make sure to handle certificate securely in your application
-        // For this example, I'm just returning a byte array as a placeholder
-        return new byte[0];
-    }
-}
+If you prefer to connect directly to MongoDB for configuration data, provide the necessary MongoDB options such as `ConnectionString`, `DatabaseName`, and `ConfigCollectionName`.
+
+```markdown
+```csharp
+services.AddConfigHubClient(new ConfigHubOptions
+{
+    UseConfigHubService = false,
+    ConnectionString = "mongodb://localhost:27017",
+    DatabaseName = "YourDatabaseName",
+    ConfigCollectionName = "YourConfigCollectionName"
+});
 ```
 
 ConfigHub provides a centralized and secure solution for managing configuration data. By using the ConfigHub.Client library, you can easily consume the ConfigHub API in your application, ensuring that your application always has the most up-to-date configuration settings. Feel free to use and customize this solution for your configuration management needs. If you have any questions or issues, please feel free to reach out to us or open an issue on GitHub.
