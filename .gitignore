@@ -48,3 +48,4 @@ Logs/
 /tests/ConfigHub.Shared.Tests/obj
 /ConfigHubDemoApp/ConfigHubDemoApp.ConsoleApp/obj
 /ConfigHubDemo/ConfigHubDemo.WebAPI/obj
+/WeatherForecastDemo/WeatherForecast.WebAPI/obj

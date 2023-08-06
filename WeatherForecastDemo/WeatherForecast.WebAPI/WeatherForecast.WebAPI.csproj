@@ -24,6 +24,9 @@
     <None Update="ConfigHubClientDll\SelfSignLocal.pfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="TestData\SelfSignLocal.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

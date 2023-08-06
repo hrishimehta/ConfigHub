@@ -12,7 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var certificatePath = Path.Combine(AppContext.BaseDirectory, "ConfigHubClientDll/SelfSignLocal.pfx");
+var certificatePath = Path.Combine(AppContext.BaseDirectory, "TestData/SelfSignLocal.pfx");
 var certificate = new X509Certificate2(certificatePath, "certificate_password");
 
 builder.Services.AddConfigHubClient(new ConfigHubOptions
