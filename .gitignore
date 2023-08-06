@@ -37,3 +37,12 @@ bower_components/
 # Ignore logs and local application data
 Logs/
 *.log
+/src/ConfigHub.Domain/obj
+/src/ConfigHub.Infrastructure/obj
+/src/ConfigHub.Mongo/obj
+/src/ConfigHub.Shared/obj
+/tests/ConfigHub.API.Tests/obj
+/tests/ConfigHub.Client.Tests/obj
+/tests/ConfigHub.Infrastructure.Tests/obj
+/tests/ConfigHub.Mongo.Tests/obj
+/tests/ConfigHub.Shared.Tests/obj

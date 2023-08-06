@@ -1,5 +1,5 @@
 using ConfigHub.API.Middleware;
-using ConfigHub.Infrastructure.Interface;
+using ConfigHub.Domain.Interface;
 using ConfigHub.Infrastructure.Services;
 using ConfigHub.Mongo.Interface;
 using ConfigHub.Mongo.Services;
@@ -28,7 +28,6 @@ var conventionPack = new ConventionPack
         };
 
 ConventionRegistry.Register("MyConventionPack", conventionPack, t => true);
-
 
 builder.Services.AddSingleton<IMongoRepositoryFactory, MongoRepositoryFactory>(provider => new MongoRepositoryFactory(GetMongoConnectionString(provider.GetService<IConfiguration>())));
 builder.Services.AddTransient(typeof(IMongoRepository<>), typeof(GenericMongoRepository<>));

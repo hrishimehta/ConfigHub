@@ -1,26 +1,27 @@
 ﻿using ConfigHub.Domain.Entity;
+using ConfigHub.Shared.Options;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 
 namespace ConfigHub.Client
 {
-    public class ConfigHubClient : IConfigHubClient
+    public class ConfigHubServiceClient : IConfigHubClient
     {
         private readonly HttpClient _httpClient;
 
-        public ConfigHubClient(string baseAddress, X509Certificate2 clientCertificate, string applicationId)
+        public ConfigHubServiceClient(ConfigHubOptions configHubOptions)
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri(baseAddress)
+                BaseAddress = new Uri(configHubOptions.BaseAddress)
             };
 
-            if (clientCertificate != null)
+            if (configHubOptions.ClientCertificate != null)
             {
-                _httpClient.DefaultRequestHeaders.Add("X-Client-Cert", Convert.ToBase64String(clientCertificate.RawData));
+                _httpClient.DefaultRequestHeaders.Add("X-Client-Cert", Convert.ToBase64String(configHubOptions.ClientCertificate.RawData));
             }
 
-            _httpClient.DefaultRequestHeaders.Add("X-ApplicationId", applicationId);
+            _httpClient.DefaultRequestHeaders.Add("X-ApplicationId", configHubOptions.ApplicationId);
         }
 
         public async Task<ConfigItem> GetConfigItemByKeyAndComponent(string component, string key)

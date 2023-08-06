@@ -1,9 +1,5 @@
-﻿using ConfigHub.Infrastructure.Interface;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using ConfigHub.Domain.Interface;
 using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 
 namespace ConfigHub.API.Middleware
 {
