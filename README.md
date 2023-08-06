@@ -44,6 +44,7 @@ In your application's Startup.cs or a similar configuration file, register the C
 
 If you want to use the ConfigHub service for configuration data, provide the required options such as `BaseAddress`, `ClientCertificate`, and `ApplicationId`.
 
+
 ```markdown
 ```csharp
 services.AddConfigHubClient(new ConfigHubOptions
@@ -54,6 +55,7 @@ services.AddConfigHubClient(new ConfigHubOptions
     ApplicationId = "YourApplicationId"
 });
 ```
+![Sequence Diagram]("UML/ConfgHubClientAsService.png")
 
 #### Scenario 2: Using Direct MongoDB Connection
 
@@ -69,6 +71,7 @@ services.AddConfigHubClient(new ConfigHubOptions
     ConfigCollectionName = "YourConfigCollectionName"
 });
 ```
+![Sequence Diagram]("UML/ConfgHubClientAsLibrary.png")
 
 ConfigHub provides a centralized and secure solution for managing configuration data. By using the ConfigHub.Client library, you can easily consume the ConfigHub API in your application, ensuring that your application always has the most up-to-date configuration settings. Feel free to use and customize this solution for your configuration management needs. If you have any questions or issues, please feel free to reach out to us or open an issue on GitHub.
 

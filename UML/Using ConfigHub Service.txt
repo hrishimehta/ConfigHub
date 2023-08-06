@@ -1,0 +1,14 @@
+@startuml SequenceDiagram
+title Using ConfigHub Service
+
+actor User as "Client Application"
+participant ClientApp as "Client Application"
+participant ConfigHub as "ConfigHub"
+participant ConfigHubServiceMongo as "Config Mongo DB"
+ClientApp -> ClientApp: Decide use ConfigHubService
+ClientApp -> ConfigHub: Request Configuration Data
+ConfigHub -> ConfigHubServiceMongo: Retrieve Configuration Data
+ConfigHubServiceMongo --> ConfigHub: Configuration Data
+ConfigHub --> ClientApp: Return Configuration Data
+
+@enduml

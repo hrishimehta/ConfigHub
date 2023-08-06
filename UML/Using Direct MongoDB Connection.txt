@@ -1,0 +1,15 @@
+@startuml SequenceDiagram
+
+title Using Direct MongoDB Connection
+
+actor User as "Client Application"
+participant ClientApp as "Client Application"
+participant ConfigHubServiceMongo as "Client Mongo DB"
+participant ConfigHubServiceMongo as "Client Mongo DB"
+
+ClientApp -> ClientApp: Decide use ConfigHubMongoClient
+ClientApp -> ConfigHubServiceMongo: Request Configuration Data
+ConfigHubServiceMongo -> ClientApp: Retrieve Configuration Data
+
+
+@enduml
