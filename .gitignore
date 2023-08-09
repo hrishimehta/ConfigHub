@@ -49,3 +49,4 @@ Logs/
 /ConfigHubDemoApp/ConfigHubDemoApp.ConsoleApp/obj
 /ConfigHubDemo/ConfigHubDemo.WebAPI/obj
 /WeatherForecastDemo/WeatherForecast.WebAPI/obj
+/tests/ConfigHub.Domain.Tests/obj

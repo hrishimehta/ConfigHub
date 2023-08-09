@@ -13,9 +13,12 @@ namespace ConfigHub.Mongo.Interface
         Task<T> FindByIdAsync(string id);
         Task<IEnumerable<T>> FindAllAsync(FilterDefinition<T> filter = null);
         Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> filter = null);
-        Task<IEnumerable<TProjection>> FindAllAsync<TProjection>(Expression<Func<T, bool>> filter, Expression<Func<T, TProjection>> projection);
+        Task<List<T>> FindAllAsync(Expression<Func<T, bool>> filter, ProjectionDefinition<T, T> projection);
+
         Task<T> FindOneAsync(Expression<Func<T, bool>> filter);
         Task<long> CountAsync(Expression<Func<T, bool>> filter = null);
         Task<long> CountAsync(FilterDefinition<T> filter = null);
+        Task InsertOneAsync(T document);
+        Task InsertManyAsync(IEnumerable<T> documents);
     }
 }

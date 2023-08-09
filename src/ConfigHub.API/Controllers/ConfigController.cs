@@ -1,5 +1,7 @@
-﻿using ConfigHub.Domain.Interface;
+﻿using ConfigHub.Domain.Entity;
+using ConfigHub.Domain.Interface;
 using ConfigHub.Shared;
+using ConfigHub.Shared.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata;
@@ -10,13 +12,41 @@ namespace ConfigHub.API.Controllers
     [Route("api/[controller]")]
     public class ConfigController : ControllerBase
     {
-        private readonly IConfigService _configService;
+        private readonly IConfigService configService;
         private readonly ILogger<ConfigController> _logger;
 
         public ConfigController(IConfigService configService, ILogger<ConfigController> logger)
         {
-            _configService = configService ?? throw new ArgumentNullException(nameof(configService));
+            this.configService = configService ?? throw new ArgumentNullException(nameof(configService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddConfigItem([FromBody] ConfigItem configItem)
+        {
+            try
+            {
+                if (configItem == null)
+                {
+                    return BadRequest("Invalid data");
+                }
+
+                // Add the config item to the database
+                await this.configService.AddConfigItemAsync(configItem);
+
+                return CreatedAtAction(nameof(GetConfigByKey), new { component = configItem.Component, key = configItem.Key }, configItem);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("applications")]
+        public async Task<ActionResult<IEnumerable<string>>> GetAllApplicationNames()
+        {
+            var applicationNames = await this.configService.GetAllApplicationNamesAsync();
+            return Ok(applicationNames);
         }
 
         [HttpGet("component/{component}/key/{key}")]
@@ -26,7 +56,7 @@ namespace ConfigHub.API.Controllers
             try
             {
                 var applicationId = this.GetApplicationName();
-                var config = await _configService.GetConfigItemByKeyAndComponent(applicationId, component, key);
+                var config = await this.configService.GetConfigItemByKeyAndComponent(applicationId, component, key);
                 if (config != null)
                 {
                     return Ok(config);
@@ -45,14 +75,23 @@ namespace ConfigHub.API.Controllers
 
         [HttpGet("component/{component}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetAllConfigsByComponent(string component)
+        public async Task<IActionResult> GetAllConfigsByComponent(string component, [FromQuery] bool includeValue = true)
         {
             try
             {
                 var applicationId = this.GetApplicationName();
-                var configs = await _configService.GetAllConfigItemsByComponent(applicationId, component);
+                var configs = await this.configService.GetAllConfigItemsByComponent(applicationId, component);
+
                 if (configs != null && configs.Count() > 0)
                 {
+                    if (!includeValue)
+                    {
+                        foreach (var item in configs)
+                        {
+                            item.Value = null;
+                        }
+                    }
+
                     return Ok(configs);
                 }
                 else

@@ -46,7 +46,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<AuditMiddleware>();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
-app.UseMiddleware<CertificateAuthenticationMiddleware>();
+// app.UseMiddleware<CertificateAuthenticationMiddleware>();
 
 
 

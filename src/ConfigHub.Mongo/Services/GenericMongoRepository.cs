@@ -1,4 +1,6 @@
 ﻿using ConfigHub.Mongo.Interface;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System.Linq.Expressions;
@@ -25,21 +27,16 @@ namespace ConfigHub.Mongo.Services
             return await _collection.Find(filter).ToListAsync();
         }
 
+        public Task<List<T>> FindAllAsync(Expression<Func<T, bool>> filter , ProjectionDefinition<T, T> projection)
+        {
+            return  _collection.Find(filter).Project(projection).ToListAsync();
+        }
+
         public async Task<IEnumerable<T>> FindAllAsync(FilterDefinition<T> filter = null)
         {
             return await _collection.Find(filter).ToListAsync();
         }
-
-        public async Task<IEnumerable<TProjection>> FindAllAsync<TProjection>(Expression<Func<T, bool>> filter, Expression<Func<T, TProjection>> projection)
-        {
-            var query = _collection.AsQueryable().OfType<T>();
-
-            if (filter != null)
-                query = query.Where(filter);
-
-            return await query.Select(projection).ToListAsync();
-        }
-
+                
         public async Task<T> FindOneAsync(Expression<Func<T, bool>> filter)
         {
             return await _collection.Find(filter).FirstOrDefaultAsync();
@@ -59,6 +56,26 @@ namespace ConfigHub.Mongo.Services
                 return await _collection.EstimatedDocumentCountAsync();
 
             return await _collection.CountDocumentsAsync(filter);
+        }
+
+        public async Task InsertOneAsync(T document)
+        {
+            if (document == null)
+            {
+                throw new ArgumentNullException(nameof(document));
+            }
+
+            await _collection.InsertOneAsync(document);
+        }
+
+        public async Task InsertManyAsync(IEnumerable<T> documents)
+        {
+            if (documents == null)
+            {
+                throw new ArgumentNullException(nameof(documents));
+            }
+
+            await _collection.InsertManyAsync(documents);
         }
     }
 }
