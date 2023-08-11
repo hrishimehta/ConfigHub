@@ -60,6 +60,7 @@ namespace ConfigHub.Infrastructure.Services
 
         public async Task<IEnumerable<ConfigItem>> GetAllConfigItemsByComponent(string applicationId, string componentId)
         {
+
             var configItems = await configItemRepository.FindAllAsync(c => c.ApplicationName == applicationId &&
                                                                  c.Component == componentId);
 
