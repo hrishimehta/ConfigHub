@@ -7,6 +7,7 @@ namespace ConfigHub.Domain.Entity
     {
         public string Key { get; set; }
         public string Value { get; set; }
+        public string LinkedKey { get; set; }
         public string HashedValue { get; set; }
         public bool IsEncrypted { get; set; }
         public string Component { get; set; }

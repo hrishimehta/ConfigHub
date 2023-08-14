@@ -56,7 +56,7 @@
 },
 {
    "Key": "WeatherProviderUrl",
-  "Value": "##Linked_WeatherForecast_WeatherAPI_WeatherProviderUrl",
+  "LinkedKey": "WeatherForecast_WeatherAPI_WeatherProviderUrl",
   "IsEncrypted": true,
   "Component": "WeatherUI",
   "ApplicationName": "WeatherForecast",

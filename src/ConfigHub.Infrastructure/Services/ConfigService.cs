@@ -27,7 +27,7 @@ namespace ConfigHub.Infrastructure.Services
                     Builders<ConfigItem>.Filter.Eq("Key", key);
 
             var configItem = (await configItemRepository.FindAllAsync(filter)).FirstOrDefault();
-            configItem.Value = await this.ParseLinkedValue(configItem);
+            configItem.Value = await this.GetLinkedValue(configItem);
 
             return configItem;
         }
@@ -67,20 +67,25 @@ namespace ConfigHub.Infrastructure.Services
             var configItems = await configItemRepository.FindAllAsync(c => c.ApplicationName == applicationId &&
                                                                  c.Component == componentId);
 
+            foreach (var item in configItems)
+            {
+                item.Value = await this.GetLinkedValue(item);
+            }
+
             return configItems;
         }
 
-        public async Task<string> ParseLinkedValue(ConfigItem configItem)
+        public async Task<string> GetLinkedValue(ConfigItem configItem)
         {
             string linkedValue = configItem.Value;
-            if (configItem.Value != null && configItem.Value.StartsWith(Constants.LinkedKeyPrefix))
+            if (configItem.LinkedKey != null)
             {
-                var linkedParts = configItem.Value.Split('_', StringSplitOptions.RemoveEmptyEntries);
-                if (linkedParts.Length == 4)
+                var linkedParts = configItem.LinkedKey.Split('_', StringSplitOptions.RemoveEmptyEntries);
+                if (linkedParts.Length == 3)
                 {
-                    var linkedApplicationName = linkedParts[1];
-                    var linkedComponent = linkedParts[2];
-                    var linkedKey = linkedParts[3];
+                    var linkedApplicationName = linkedParts[0];
+                    var linkedComponent = linkedParts[1];
+                    var linkedKey = linkedParts[2];
 
                     linkedValue = (await GetConfigItemByKeyAndComponent(linkedApplicationName, linkedComponent, linkedKey).ConfigureAwait(false)).Value;
                 }
