@@ -9,8 +9,6 @@ ConfigHub is a flexible configuration management system designed to simplify han
 - **ConfigHub.Client Library:**
   - Client-side library to interact with the ConfigHub service.
   - Supports both service-based and MongoDB-based configurations.
-
-- **Service Extension Method:**
   - Extension method to integrate ConfigHub.Client into ASP.NET Core applications.
   - Easily configure client options including service URL, client certificate, etc.
 
@@ -18,25 +16,19 @@ ConfigHub is a flexible configuration management system designed to simplify han
   - Store configuration data in MongoDB.
   - MongoDB repository with CRUD operations for configuration items.
 
-- **Certificate Mapping:**
+- **Certificate Authorization:**
   - Supports certificate mapping for application identity.
   - Store certificate-thumbprint to application ID mapping in MongoDB.
 
 - **In-Memory Cache:**
   - In-memory caching for frequently used configuration data.
-  - Caches data retrieved from MongoDB or service endpoints.
+  - Caches data retrieved from service endpoints.
+  - Load and cache configuration data for a component at initialization.
+  - Fetches and caches data as needed.
 
 - **Data Encryption:**
   - Encryption and decryption of sensitive configuration values.
   - AES encryption with random IV.
-
-- **Dynamic Configuration Loading:**
-  - Load and cache configuration data for a component at initialization.
-  - Fetches and caches data as needed.
-
-- **Component-Based Fetching:**
-  - Fetches all configuration items for a specific component.
-  - Caches individual items with keys as `component_key`.
 
 - **API Endpoints:**
   - Exposes API endpoints to retrieve configuration items based on component and key.
@@ -45,10 +37,6 @@ ConfigHub is a flexible configuration management system designed to simplify han
 - **Customization via Options:**
   - Customizable options class to configure ConfigHub.Client behavior.
   - Includes options for service URL, certificate, MongoDB connection, etc.
-
-- **Integration with ASP.NET Core:**
-  - Provides service extensions and integration points for easy integration into ASP.NET Core applications.
-
 
 ## Project Structure
 
