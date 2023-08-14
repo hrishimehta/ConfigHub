@@ -11,6 +11,8 @@ ConfigHub is a flexible configuration management system designed to simplify han
   - Supports both service-based and MongoDB-based configurations.
   - Extension method to integrate ConfigHub.Client into ASP.NET Core applications.
   - Easily configure client options including service URL, client certificate, etc.
+- **Linked COnfiguration**
+  - Enhance configuration management by reusing values across components using the LinkedKey property in cofnig item
 
 - **MongoDB Integration:**
   - Store configuration data in MongoDB.
