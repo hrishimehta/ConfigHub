@@ -10,6 +10,19 @@
   "LastUpdatedBy": "User1",
   "MemCacheDurationInMinute": 30
 },
+
+{
+  
+  "Key": "kEY1",
+  "Value": "Value1",
+  "IsEncrypted": true,
+  "Component": "Component1",
+  "ApplicationName": "Application1",
+  "LastUpdatedDateTime": "2022-07-26T12:34:56Z",
+  "CreatedDateTime": "2022-01-01T10:20:30Z",
+  "LastUpdatedBy": "User1",
+  "MemCacheDurationInMinute": 30
+}
 {
    "Key": "WeatherBackendAPI",
   "Value": "https://openweathermap.org/api",

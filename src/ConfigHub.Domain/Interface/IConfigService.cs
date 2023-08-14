@@ -1,4 +1,5 @@
 ﻿using ConfigHub.Domain.Entity;
+using ConfigHub.Shared.Entity;
 
 namespace ConfigHub.Domain.Interface
 {
@@ -9,5 +10,7 @@ namespace ConfigHub.Domain.Interface
         Task<bool> IsValidApplicationCertificateMappingAsync(string thumbprint, string applicationId);
         Task<ConfigItem> AddConfigItemAsync(ConfigItem configItem);
         Task<IEnumerable<string>> GetAllApplicationNamesAsync();
+
+        Task<IEnumerable<AppInfo>> GetAllAppInfoAsync();
     }
 }

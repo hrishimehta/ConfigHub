@@ -49,6 +49,31 @@ namespace ConfigHub.API.Controllers
             return Ok(applicationNames);
         }
 
+        [HttpGet("appinfo")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllAppInfoAsync()
+        {
+            try
+            {
+                var appInfos = await this.configService.GetAllAppInfoAsync();
+
+                if (appInfos != null && appInfos.Count() > 0)
+                {
+                    return Ok(appInfos);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching application information.");
+                return StatusCode(500, "An error occurred while fetching application information.");
+            }
+        }
+
+
         [HttpGet("component/{component}/key/{key}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetConfigByKey(string component, string key)

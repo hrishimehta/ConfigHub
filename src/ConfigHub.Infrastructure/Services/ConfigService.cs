@@ -3,9 +3,8 @@ using ConfigHub.Domain.Interface;
 using ConfigHub.Infrastructure.Contract;
 using ConfigHub.Mongo;
 using ConfigHub.Mongo.Interface;
-using ConfigHub.Shared;
+using ConfigHub.Shared.Entity;
 using MongoDB.Driver;
-using System.Reflection.Metadata;
 
 namespace ConfigHub.Infrastructure.Services
 {
@@ -59,6 +58,23 @@ namespace ConfigHub.Infrastructure.Services
 
             return applicationNames.Select(item => item.ApplicationName).Distinct();
         }
+
+        public async Task<IEnumerable<AppInfo>> GetAllAppInfoAsync()
+        {
+            var filter = Builders<ConfigItem>.Filter.Empty;
+            var projection = Builders<ConfigItem>.Projection.Include(item => item.ApplicationName).Include(item => item.Component);
+
+            var configItems = await configItemRepository.FindAllAsync(filter, projection);
+
+            var uniqueAppInfoList = configItems
+                .GroupBy(item => new { item.ApplicationName })
+                .Select(group => new AppInfo { ApplicationName = group.Key.ApplicationName, Components = group.Select(item => item.Component).Distinct().ToList() })
+                .Distinct();
+           
+            return uniqueAppInfoList;
+        }
+
+
 
 
         public async Task<IEnumerable<ConfigItem>> GetAllConfigItemsByComponent(string applicationId, string componentId)

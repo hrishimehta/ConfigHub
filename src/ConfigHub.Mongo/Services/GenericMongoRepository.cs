@@ -27,16 +27,21 @@ namespace ConfigHub.Mongo.Services
             return await _collection.Find(filter).ToListAsync();
         }
 
-        public Task<List<T>> FindAllAsync(Expression<Func<T, bool>> filter , ProjectionDefinition<T, T> projection)
+        public Task<List<T>> FindAllAsync(Expression<Func<T, bool>> filter, ProjectionDefinition<T, T> projection)
         {
-            return  _collection.Find(filter).Project(projection).ToListAsync();
+            return _collection.Find(filter).Project(projection).ToListAsync();
         }
 
         public async Task<IEnumerable<T>> FindAllAsync(FilterDefinition<T> filter = null)
         {
             return await _collection.Find(filter).ToListAsync();
         }
-                
+
+        public async Task<IEnumerable<T>> FindAllAsync(FilterDefinition<T> filter, ProjectionDefinition<T, T> projection)
+        {
+            return await _collection.Find(filter).Project(projection).ToListAsync();
+        }
+
         public async Task<T> FindOneAsync(Expression<Func<T, bool>> filter)
         {
             return await _collection.Find(filter).FirstOrDefaultAsync();
