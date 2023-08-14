@@ -11,5 +11,7 @@ namespace ConfigHub.Shared
         public const string ApplicationNameHeader = "X-ApplicationId"; 
         public const string ClientCertificateHeader = "X-Client-Cert";
 
+        public const string LinkedKeyPrefix = "##Linked_";
+
     }
 }

@@ -1,4 +1,5 @@
 using ConfigHub.API.Middleware;
+using ConfigHub.API.Swagger;
 using ConfigHub.Domain.Interface;
 using ConfigHub.Infrastructure.Services;
 using ConfigHub.Mongo.Interface;
@@ -15,8 +16,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
-
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ConfigHub API", Version = "v1" });
+    c.OperationFilter<AddCustomHeaderParameter>();
 
 });
 

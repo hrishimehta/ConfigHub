@@ -28,4 +28,49 @@
   "Thumbprint": "6B08B1FAAC66FFA0B33A25973867651FDAEDFEDF",
   "ApplicationName": "WeatherForecast"
 }
+----------------------------
+
+
+[{
+  
+  "Key": "WeatherProviderUrl",
+  "Value": "https://openweathermap.org/api",
+  "IsEncrypted": true,
+  "Component": "WeatherAPI",
+  "ApplicationName": "WeatherForecast",
+  "LastUpdatedDateTime": "2022-07-26T12:34:56Z",
+  "CreatedDateTime": "2022-01-01T10:20:30Z",
+  "LastUpdatedBy": "User1",
+  "MemCacheDurationInMinute": 30
+},
+{
+   "Key": "WeatherBackendAPI",
+  "Value": "https://openweathermap.org/api",
+  "IsEncrypted": true,
+  "Component": "WeatherUI",
+  "ApplicationName": "WeatherForecast",
+  "LastUpdatedDateTime": "2022-07-26T12:34:56Z",
+  "CreatedDateTime": "2022-01-01T10:20:30Z",
+  "LastUpdatedBy": "User1",
+  "MemCacheDurationInMinute": 30
+},
+{
+   "Key": "WeatherProviderUrl",
+  "Value": "##Linked_WeatherForecast_WeatherAPI_WeatherProviderUrl",
+  "IsEncrypted": true,
+  "Component": "WeatherUI",
+  "ApplicationName": "WeatherForecast",
+  "LastUpdatedDateTime": "2022-07-26T12:34:56Z",
+  "CreatedDateTime": "2022-01-01T10:20:30Z",
+  "LastUpdatedBy": "User1",
+  "MemCacheDurationInMinute": 30
+}
+
+
+{
+ 
+  "Thumbprint": "6B08B1FAAC66FFA0B33A25973867651FDAEDFEDF",
+  "ApplicationName": "WeatherForecast"
+}
+
 

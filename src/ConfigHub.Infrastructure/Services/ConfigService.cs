@@ -3,7 +3,9 @@ using ConfigHub.Domain.Interface;
 using ConfigHub.Infrastructure.Contract;
 using ConfigHub.Mongo;
 using ConfigHub.Mongo.Interface;
+using ConfigHub.Shared;
 using MongoDB.Driver;
+using System.Reflection.Metadata;
 
 namespace ConfigHub.Infrastructure.Services
 {
@@ -24,9 +26,10 @@ namespace ConfigHub.Infrastructure.Services
                     Builders<ConfigItem>.Filter.Eq("ApplicationName", applicationId) &
                     Builders<ConfigItem>.Filter.Eq("Key", key);
 
-            var configItem = await configItemRepository.FindAllAsync(filter);
+            var configItem = (await configItemRepository.FindAllAsync(filter)).FirstOrDefault();
+            configItem.Value = await this.ParseLinkedValue(configItem);
 
-            return configItem.FirstOrDefault();
+            return configItem;
         }
 
         public async Task<bool> IsValidApplicationCertificateMappingAsync(string thumbprint, string applicationId)
@@ -65,6 +68,25 @@ namespace ConfigHub.Infrastructure.Services
                                                                  c.Component == componentId);
 
             return configItems;
+        }
+
+        public async Task<string> ParseLinkedValue(ConfigItem configItem)
+        {
+            string linkedValue = configItem.Value;
+            if (configItem.Value != null && configItem.Value.StartsWith(Constants.LinkedKeyPrefix))
+            {
+                var linkedParts = configItem.Value.Split('_', StringSplitOptions.RemoveEmptyEntries);
+                if (linkedParts.Length == 4)
+                {
+                    var linkedApplicationName = linkedParts[1];
+                    var linkedComponent = linkedParts[2];
+                    var linkedKey = linkedParts[3];
+
+                    linkedValue = (await GetConfigItemByKeyAndComponent(linkedApplicationName, linkedComponent, linkedKey).ConfigureAwait(false)).Value;
+                }
+            }
+
+            return linkedValue;
         }
 
     }

@@ -17,8 +17,4 @@
     <ProjectReference Include="..\ConfigHub.Shared\ConfigHub.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Swagger\" />
-  </ItemGroup>
-
 </Project>
