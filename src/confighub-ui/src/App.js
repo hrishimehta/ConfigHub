@@ -65,7 +65,7 @@ function App() {
 
   const handleSaveConfigItem = async (editedConfigItem) => {
     try {
-      await axiosInstance.put('/api/config', editedConfigItem);
+      await axiosInstance.put(`/api/config/${editedConfigItem.Component}/${editedConfigItem.Key}`, editedConfigItem);
       fetchConfigItems();
       closeEditModal();
     } catch (error) {

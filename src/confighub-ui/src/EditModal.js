@@ -76,7 +76,7 @@ function EditModal({ isOpen, closeModal, configItem, onSave }) {
         </div>
         <div className="button-group">
           <button className="save-button" onClick={handleSave}>Save</button>
-          <button className="cancel-button" onClick={closeModal}>Cancel</button>
+          <button className="cancel-button" onClick={closeModal}>Close</button>
         </div>
       </div>
     </div>

@@ -18,7 +18,8 @@ namespace ConfigHub.Mongo.Services
 
         public async Task<T> FindByIdAsync(string id)
         {
-            var filter = Builders<T>.Filter.Eq("_id", id);
+            ObjectId objectId = ObjectId.Parse(id);
+            var filter = Builders<T>.Filter.Eq("_id", objectId);
             return await _collection.Find(filter).FirstOrDefaultAsync();
         }
 
@@ -85,7 +86,8 @@ namespace ConfigHub.Mongo.Services
 
         public async Task UpdateAsync(string id, T entity)
         {
-            var filter = Builders<T>.Filter.Eq("_id", id);
+            ObjectId objectId = ObjectId.Parse(id);
+            var filter = Builders<T>.Filter.Eq("_id", objectId);
             await _collection.ReplaceOneAsync(filter, entity);
         }
     }
