@@ -25,23 +25,23 @@ namespace ConfigHub.API.Middleware
             // Save it in the HttpContext for later use
             context.Items["ApplicationId"] = applicationId;
 
-            string clientCertBase64 = context.Request.Headers[Constants.ClientCertificateHeader];
-            byte[] certData = Convert.FromBase64String(clientCertBase64);
-            // Get client certificate from the request
-            X509Certificate2 clientCert = new X509Certificate2(certData);
+            //string clientCertBase64 = context.Request.Headers[Constants.ClientCertificateHeader];
+            //byte[] certData = Convert.FromBase64String(clientCertBase64);
+            //// Get client certificate from the request
+            //X509Certificate2 clientCert = new X509Certificate2(certData);
 
-            if (clientCert == null || !IsValidClientCertificate(clientCert))
-            {
-                context.Response.StatusCode = StatusCodes.Status403Forbidden;
-                return;
-            }
+            //if (clientCert == null || !IsValidClientCertificate(clientCert))
+            //{
+            //    context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            //    return;
+            //}
 
-            // Check if the client certificate is mapped to the correct application ID
-            if (!await _configService.IsValidApplicationCertificateMappingAsync(clientCert.Thumbprint, applicationId))
-            {
-                context.Response.StatusCode = StatusCodes.Status403Forbidden;
-                return;
-            }
+            //// Check if the client certificate is mapped to the correct application ID
+            //if (!await _configService.IsValidApplicationCertificateMappingAsync(clientCert.Thumbprint, applicationId))
+            //{
+            //    context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            //    return;
+            //}
 
 
             await _next(context);

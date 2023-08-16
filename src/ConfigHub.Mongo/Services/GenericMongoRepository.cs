@@ -82,5 +82,11 @@ namespace ConfigHub.Mongo.Services
 
             await _collection.InsertManyAsync(documents);
         }
+
+        public async Task UpdateAsync(string id, T entity)
+        {
+            var filter = Builders<T>.Filter.Eq("_id", id);
+            await _collection.ReplaceOneAsync(filter, entity);
+        }
     }
 }

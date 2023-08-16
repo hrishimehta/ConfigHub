@@ -9,6 +9,9 @@ namespace ConfigHub.Domain.Interface
         Task<IEnumerable<ConfigItem>> GetAllConfigItemsByComponent(string applicationId, string componentId);
         Task<bool> IsValidApplicationCertificateMappingAsync(string thumbprint, string applicationId);
         Task<ConfigItem> AddConfigItemAsync(ConfigItem configItem);
+
+        Task<ConfigItem> UpdateConfigItemAsync(ConfigItem configItem);
+
         Task<IEnumerable<string>> GetAllApplicationNamesAsync();
 
         Task<IEnumerable<AppInfo>> GetAllAppInfoAsync();

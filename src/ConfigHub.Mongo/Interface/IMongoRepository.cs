@@ -21,5 +21,7 @@ namespace ConfigHub.Mongo.Interface
         Task<long> CountAsync(FilterDefinition<T> filter = null);
         Task InsertOneAsync(T document);
         Task InsertManyAsync(IEnumerable<T> documents);
+
+        Task UpdateAsync(string id,T entity);
     }
 }

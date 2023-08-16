@@ -42,12 +42,35 @@ namespace ConfigHub.API.Controllers
             }
         }
 
-        [HttpGet("applications")]
-        public async Task<ActionResult<IEnumerable<string>>> GetAllApplicationNames()
+        [HttpPut("{component}/{key}")]
+        public async Task<IActionResult> UpdateConfigItem(string component, string key, [FromBody] ConfigItem configItem)
         {
-            var applicationNames = await this.configService.GetAllApplicationNamesAsync();
-            return Ok(applicationNames);
+            try
+            {
+                if (configItem == null)
+                {
+                    return BadRequest("Invalid data");
+                }
+
+                configItem.Component = component;
+                configItem.Key = key;
+
+                // Update the config item in the database
+                var updatedConfigItem = await this.configService.UpdateConfigItemAsync(configItem);
+
+                return Ok(updatedConfigItem);
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
+
+
 
         [HttpGet("appinfo")]
         [AllowAnonymous]

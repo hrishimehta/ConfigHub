@@ -48,6 +48,26 @@ namespace ConfigHub.Infrastructure.Services
             return configItem;
         }
 
+        public async Task<ConfigItem> UpdateConfigItemAsync(ConfigItem configItem)
+        {
+            var existingConfig = await GetConfigItemByKeyAndComponent(configItem.ApplicationName, configItem.Component, configItem.Key);
+
+            if (existingConfig == null)
+            {
+                throw new ArgumentException($"Configuration item with key '{configItem.Key}' and component '{configItem.Component}' does not exist.");
+            }
+
+            // Update the properties
+            existingConfig.Value = configItem.Value;
+            existingConfig.HashedValue = configItem.HashedValue;
+            existingConfig.IsEncrypted = configItem.IsEncrypted;
+
+            // Update the existing configuration item in the database
+            await configItemRepository.UpdateAsync(existingConfig.Id, existingConfig);
+
+            return existingConfig;
+        }
+
         public async Task<IEnumerable<string>> GetAllApplicationNamesAsync()
         {
             var filter = Builders<CertificateMappingDocument>.Filter.Empty;
@@ -70,7 +90,7 @@ namespace ConfigHub.Infrastructure.Services
                 .GroupBy(item => new { item.ApplicationName })
                 .Select(group => new AppInfo { ApplicationName = group.Key.ApplicationName, Components = group.Select(item => item.Component).Distinct().ToList() })
                 .Distinct();
-           
+
             return uniqueAppInfoList;
         }
 

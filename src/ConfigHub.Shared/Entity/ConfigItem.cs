@@ -1,10 +1,13 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace ConfigHub.Domain.Entity
 {
     [Serializable]
     public class ConfigItem
     {
+        [BsonId]
+        public string Id { get; set; }
         public string Key { get; set; }
         public string Value { get; set; }
         public string LinkedKey { get; set; }

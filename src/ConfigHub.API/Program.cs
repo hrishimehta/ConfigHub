@@ -6,12 +6,31 @@ using ConfigHub.Mongo.Interface;
 using ConfigHub.Mongo.Services;
 using Microsoft.OpenApi.Models;
 using MongoDB.Bson.Serialization.Conventions;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:3000") // Add other origins if needed
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+
+builder.Services.AddMvc().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+});
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -35,6 +54,7 @@ builder.Services.AddTransient(typeof(IMongoRepository<>), typeof(GenericMongoRep
 builder.Services.AddTransient<IConfigService, ConfigService>();
 
 var app = builder.Build();
+app.UseCors();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -43,11 +63,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
-
 app.UseMiddleware<AuditMiddleware>();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
-// app.UseMiddleware<CertificateAuthenticationMiddleware>();
+app.UseMiddleware<CertificateAuthenticationMiddleware>();
 
 
 
