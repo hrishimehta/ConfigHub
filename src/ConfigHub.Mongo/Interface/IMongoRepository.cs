@@ -15,7 +15,7 @@ namespace ConfigHub.Mongo.Interface
         Task<IEnumerable<T>> FindAllAsync(FilterDefinition<T> filter , ProjectionDefinition<T, T> projection);
         Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> filter = null);
         Task<List<T>> FindAllAsync(Expression<Func<T, bool>> filter, ProjectionDefinition<T, T> projection);
-
+        Task<IEnumerable<T>> FindAllAsync(FilterDefinition<T> filter, int take, int skip);
         Task<T> FindOneAsync(Expression<Func<T, bool>> filter);
         Task<long> CountAsync(Expression<Func<T, bool>> filter = null);
         Task<long> CountAsync(FilterDefinition<T> filter = null);

@@ -9,9 +9,12 @@ namespace ConfigHub.Shared
     public static class Constants
     {
         public const string ApplicationNameHeader = "X-ApplicationId"; 
+
         public const string ClientCertificateHeader = "X-Client-Cert";
 
-        public const string LinkedKeyPrefix = "##Linked_";
+        public const int DefaultPagingSize = 100;
+
+        public const int MinimumSearchLength = 3;
 
     }
 }

@@ -15,5 +15,9 @@ namespace ConfigHub.Domain.Interface
         Task<IEnumerable<string>> GetAllApplicationNamesAsync();
 
         Task<IEnumerable<AppInfo>> GetAllAppInfoAsync();
+
+        Task<IEnumerable<ConfigItem>> SearchConfigItems(string search, int take, int skip);
+
+
     }
 }

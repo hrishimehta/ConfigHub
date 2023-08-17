@@ -7,6 +7,13 @@ namespace ConfigHub.API.Swagger
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
+            // Check if the endpoint is the search endpoint
+            if (context.ApiDescription.RelativePath.Contains("search"))
+            {
+                // Don't add the x-applicationid header parameter for this endpoint
+                return;
+            }
+
             if (operation.Parameters == null)
                 operation.Parameters = new List<OpenApiParameter>();
 

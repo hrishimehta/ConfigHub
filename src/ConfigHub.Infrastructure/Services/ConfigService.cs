@@ -4,6 +4,7 @@ using ConfigHub.Infrastructure.Contract;
 using ConfigHub.Mongo;
 using ConfigHub.Mongo.Interface;
 using ConfigHub.Shared.Entity;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ConfigHub.Infrastructure.Services
@@ -110,6 +111,23 @@ namespace ConfigHub.Infrastructure.Services
 
             return configItems;
         }
+
+        public async Task<IEnumerable<ConfigItem>> SearchConfigItems(string search, int take, int skip)
+        {
+            var filter = Builders<ConfigItem>.Filter.Empty;
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                var searchRegex = new BsonRegularExpression(search, "i"); // Case-insensitive search
+                filter = Builders<ConfigItem>.Filter.Regex("Value", searchRegex);
+            }
+
+            var configItems = await configItemRepository.FindAllAsync(filter, take, skip);
+
+            return configItems;
+        }
+
+
 
         public async Task<string> GetLinkedValue(ConfigItem configItem)
         {

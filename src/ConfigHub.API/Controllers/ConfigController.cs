@@ -154,6 +154,38 @@ namespace ConfigHub.API.Controllers
             }
         }
 
+        [HttpGet("search")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SearchConfigs([FromQuery] int? take = 100, [FromQuery] int? skip = 0, [FromQuery] string search = "")
+        {
+            if (take == null || take <= 0)
+            {
+                take = Constants.DefaultPagingSize; // Set default value if take is not provided or negative
+            }
+
+            if (skip == null || skip < 0)
+            {
+                skip = 0; // Set default value if skip is not provided or negative
+            }
+
+            if (string.IsNullOrEmpty(search) || search.Length < Constants.MinimumSearchLength)
+            {
+                return BadRequest($"Search query must be at least {Constants.MinimumSearchLength} characters long.");
+            }
+
+            try
+            {
+                var configItems = await this.configService.SearchConfigItems(search, take.Value, skip.Value);
+
+                return Ok(configItems);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching configurations.");
+                return StatusCode(500, "An error occurred while fetching configurations.");
+            }
+        }
+
         private string GetApplicationName()
         {
             return Request.Headers[Constants.ApplicationNameHeader].ToString();

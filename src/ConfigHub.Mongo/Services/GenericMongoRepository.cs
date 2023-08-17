@@ -33,6 +33,20 @@ namespace ConfigHub.Mongo.Services
             return _collection.Find(filter).Project(projection).ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> FindAllAsync(FilterDefinition<T> filter, int take, int skip)
+        {
+            var options = new FindOptions<T>
+            {
+                Limit = take,
+                Skip = skip
+            };
+
+            using (var cursor = await _collection.FindAsync(filter, options))
+            {
+                return await cursor.ToListAsync();
+            }
+        }
+
         public async Task<IEnumerable<T>> FindAllAsync(FilterDefinition<T> filter = null)
         {
             return await _collection.Find(filter).ToListAsync();
