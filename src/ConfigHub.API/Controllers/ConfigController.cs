@@ -1,4 +1,5 @@
-﻿using ConfigHub.Domain.Entity;
+﻿using ConfigHub.API.CustomAttribute;
+using ConfigHub.Domain.Entity;
 using ConfigHub.Domain.Interface;
 using ConfigHub.Shared;
 using ConfigHub.Shared.Extensions;
@@ -121,14 +122,18 @@ namespace ConfigHub.API.Controllers
             }
         }
 
+
+
         [HttpGet("component/{component}")]
         [AllowAnonymous]
+        [Paging]
         public async Task<IActionResult> GetAllConfigsByComponent(string component, [FromQuery] bool includeValue = true)
         {
             try
             {
+
                 var applicationId = this.GetApplicationName();
-                var configs = await this.configService.GetAllConfigItemsByComponent(applicationId, component);
+                var (configs, totalCount) = await this.configService.GetAllConfigItemsByComponent(applicationId, component, this.Request.GetTake(), this.Request.GetSkip());
 
                 if (configs != null && configs.Count() > 0)
                 {
@@ -140,6 +145,7 @@ namespace ConfigHub.API.Controllers
                         }
                     }
 
+                    this.Response.Headers.Add(Constants.TotalCountResponseHeader, totalCount.ToString());
                     return Ok(configs);
                 }
                 else
@@ -156,17 +162,9 @@ namespace ConfigHub.API.Controllers
 
         [HttpGet("search")]
         [AllowAnonymous]
-        public async Task<IActionResult> SearchConfigs([FromQuery] int? take = 100, [FromQuery] int? skip = 0, [FromQuery] string search = "")
+        [Paging]
+        public async Task<IActionResult> SearchConfigs([FromQuery] string search = "")
         {
-            if (take == null || take <= 0)
-            {
-                take = Constants.DefaultPagingSize; // Set default value if take is not provided or negative
-            }
-
-            if (skip == null || skip < 0)
-            {
-                skip = 0; // Set default value if skip is not provided or negative
-            }
 
             if (string.IsNullOrEmpty(search) || search.Length < Constants.MinimumSearchLength)
             {
@@ -175,8 +173,8 @@ namespace ConfigHub.API.Controllers
 
             try
             {
-                var configItems = await this.configService.SearchConfigItems(search, take.Value, skip.Value);
-
+                var (configItems, totalCount) = await this.configService.SearchConfigItems(search, this.Request.GetTake(), this.Request.GetSkip());
+                this.Response.Headers.Add(Constants.TotalCountResponseHeader, totalCount.ToString());
                 return Ok(configItems);
             }
             catch (Exception ex)

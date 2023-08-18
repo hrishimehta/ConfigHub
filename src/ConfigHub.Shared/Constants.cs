@@ -12,9 +12,15 @@ namespace ConfigHub.Shared
 
         public const string ClientCertificateHeader = "X-Client-Cert";
 
+        public const string TotalCountResponseHeader = "X-TotalCount";
+
         public const int DefaultPagingSize = 100;
 
         public const int MinimumSearchLength = 3;
+
+        public const string PagingTakeAttributeName = "take";
+
+        public const string PagingSkipAttributeName = "skip";
 
     }
 }

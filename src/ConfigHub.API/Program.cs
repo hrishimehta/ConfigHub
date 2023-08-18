@@ -36,6 +36,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ConfigHub API", Version = "v1" });
+    c.OperationFilter<AddPagingParametersToSwagger>();
     c.OperationFilter<AddCustomHeaderParameter>();
 
 });

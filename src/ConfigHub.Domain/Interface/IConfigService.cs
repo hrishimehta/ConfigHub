@@ -6,7 +6,7 @@ namespace ConfigHub.Domain.Interface
     public interface IConfigService
     {
         Task<ConfigItem> GetConfigItemByKeyAndComponent(string applicationId, string componentId, string key);
-        Task<IEnumerable<ConfigItem>> GetAllConfigItemsByComponent(string applicationId, string componentId);
+        
         Task<bool> IsValidApplicationCertificateMappingAsync(string thumbprint, string applicationId);
         Task<ConfigItem> AddConfigItemAsync(ConfigItem configItem);
 
@@ -16,7 +16,9 @@ namespace ConfigHub.Domain.Interface
 
         Task<IEnumerable<AppInfo>> GetAllAppInfoAsync();
 
-        Task<IEnumerable<ConfigItem>> SearchConfigItems(string search, int take, int skip);
+        Task<(IEnumerable<ConfigItem> configItems, long totalCount)> GetAllConfigItemsByComponent(string applicationId, string componentId, int take, int skip);
+
+        Task<(IEnumerable<ConfigItem> configItems, long totalCount)> SearchConfigItems(string search, int take, int skip);
 
 
     }

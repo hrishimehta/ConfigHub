@@ -98,34 +98,31 @@ namespace ConfigHub.Infrastructure.Services
 
 
 
-        public async Task<IEnumerable<ConfigItem>> GetAllConfigItemsByComponent(string applicationId, string componentId)
+        public async Task<(IEnumerable<ConfigItem> configItems, long totalCount)> GetAllConfigItemsByComponent(string applicationId, string componentId, int take, int skip)
         {
+            var filter = Builders<ConfigItem>.Filter.Eq("ApplicationName", applicationId) &
+                         Builders<ConfigItem>.Filter.Eq("Component", componentId);
 
-            var configItems = await configItemRepository.FindAllAsync(c => c.ApplicationName == applicationId &&
-                                                                 c.Component == componentId);
-
-            foreach (var item in configItems)
-            {
-                item.Value = await this.GetLinkedValue(item);
-            }
-
-            return configItems;
-        }
-
-        public async Task<IEnumerable<ConfigItem>> SearchConfigItems(string search, int take, int skip)
-        {
-            var filter = Builders<ConfigItem>.Filter.Empty;
-
-            if (!string.IsNullOrEmpty(search))
-            {
-                var searchRegex = new BsonRegularExpression(search, "i"); // Case-insensitive search
-                filter = Builders<ConfigItem>.Filter.Regex("Value", searchRegex);
-            }
+            var totalCount = await configItemRepository.CountAsync(filter);
 
             var configItems = await configItemRepository.FindAllAsync(filter, take, skip);
 
-            return configItems;
+            return (configItems, totalCount);
         }
+
+
+
+        public async Task<(IEnumerable<ConfigItem> configItems, long totalCount)> SearchConfigItems(string search, int take, int skip)
+        {
+            var filter = Builders<ConfigItem>.Filter.Regex("Value", new BsonRegularExpression(search, "i")); // Case-insensitive regex search
+
+            var totalCount = await configItemRepository.CountAsync(filter);
+
+            var configItems = await configItemRepository.FindAllAsync(filter, take, skip);
+
+            return (configItems, totalCount);
+        }
+
 
 
 
