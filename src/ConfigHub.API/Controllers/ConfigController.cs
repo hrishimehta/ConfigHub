@@ -225,7 +225,7 @@ namespace ConfigHub.API.Controllers
             }
         }
 
-        [HttpGet("item/{id}/history")]
+        [HttpGet("{id}/history")]
         [AllowAnonymous]
         [Paging]
         [ProducesResponseType(typeof(IEnumerable<ConfigItemHistory>), (int)HttpStatusCode.OK)]
@@ -250,12 +250,12 @@ namespace ConfigHub.API.Controllers
         [Paging]
         [ProducesResponseType(typeof(IEnumerable<ConfigItemHistory>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> GetConfigItemHistoryByOperation(string component, [FromQuery] OperationType? operationType = null)
+        public async Task<IActionResult> GetConfigItemHistoryByComponent(string component, [FromQuery] OperationType? operationType = null)
         {
             try
             {
                 var applicationId = this.GetApplicationName();
-                var (historyItems, totalCount) = await _configService.GetConfigItemHistoryByOperationAsync(applicationId, component, operationType, this.Request.GetTake(), this.Request.GetSkip());
+                var (historyItems, totalCount) = await _configService.GetConfigItemHistoryByComponentAsync(applicationId, component, operationType, this.Request.GetTake(), this.Request.GetSkip());
 
                 this.Response.Headers.Add(Constants.TotalCountResponseHeader, totalCount.ToString());
                 return Ok(historyItems);

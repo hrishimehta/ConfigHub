@@ -20,6 +20,6 @@ namespace ConfigHub.Domain.Interface
         Task<(IEnumerable<ConfigItem> configItems, long totalCount)> SearchConfigItems(string search, int take, int skip);
         Task<string> GetLinkedValue(ConfigItem configItem);
         Task<(IEnumerable<ConfigItemHistory> historyItems, long totalCount)> GetConfigItemHistoryByIdAsync(string id, int take, int skip);
-        Task<(IEnumerable<ConfigItemHistory> historyItems, long totalCount)> GetConfigItemHistoryByOperationAsync(string applicationId, string componentId, OperationType? operationType, int take, int skip);
+        Task<(IEnumerable<ConfigItemHistory> historyItems, long totalCount)> GetConfigItemHistoryByComponentAsync(string applicationId, string componentId, OperationType? operationType, int take, int skip);
     }
 }

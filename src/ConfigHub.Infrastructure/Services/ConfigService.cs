@@ -198,7 +198,7 @@ namespace ConfigHub.Infrastructure.Services
         }
 
 
-        public async Task<(IEnumerable<ConfigItemHistory> historyItems, long totalCount)> GetConfigItemHistoryByOperationAsync(string applicationId, string componentId, OperationType? operationType, int take, int skip)
+        public async Task<(IEnumerable<ConfigItemHistory> historyItems, long totalCount)> GetConfigItemHistoryByComponentAsync(string applicationId, string componentId, OperationType? operationType, int take, int skip)
         {
             var filter = Builders<ConfigItemHistory>.Filter.Eq("ApplicationName", applicationId) &
                          Builders<ConfigItemHistory>.Filter.Eq("Component", componentId);
