@@ -1,11 +1,17 @@
 ﻿using ConfigHub.API.CustomAttribute;
 using ConfigHub.Domain.Entity;
 using ConfigHub.Domain.Interface;
+using ConfigHub.Infrastructure.Services;
 using ConfigHub.Shared;
 using ConfigHub.Shared.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata;
+using System;
+using System.Linq;
+using System.Net;
+using Microsoft.Extensions.Logging;
+using ConfigHub.Shared.Entity.ConfigHub.Domain.Entity;
+using ConfigHub.Shared.Entity;
 
 namespace ConfigHub.API.Controllers
 {
@@ -13,16 +19,19 @@ namespace ConfigHub.API.Controllers
     [Route("api/[controller]")]
     public class ConfigController : ControllerBase
     {
-        private readonly IConfigService configService;
+        private readonly IConfigService _configService;
         private readonly ILogger<ConfigController> _logger;
 
         public ConfigController(IConfigService configService, ILogger<ConfigController> logger)
         {
-            this.configService = configService ?? throw new ArgumentNullException(nameof(configService));
+            _configService = configService ?? throw new ArgumentNullException(nameof(configService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(ConfigItem), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> AddConfigItem([FromBody] ConfigItem configItem)
         {
             try
@@ -32,8 +41,7 @@ namespace ConfigHub.API.Controllers
                     return BadRequest("Invalid data");
                 }
 
-                // Add the config item to the database
-                await this.configService.AddConfigItemAsync(configItem);
+                await _configService.AddConfigItemAsync(configItem);
 
                 return CreatedAtAction(nameof(GetConfigByKey), new { component = configItem.Component, key = configItem.Key }, configItem);
             }
@@ -44,6 +52,10 @@ namespace ConfigHub.API.Controllers
         }
 
         [HttpPut("{component}/{key}")]
+        [ProducesResponseType(typeof(ConfigItem), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> UpdateConfigItem(string component, string key, [FromBody] ConfigItem configItem)
         {
             try
@@ -56,8 +68,7 @@ namespace ConfigHub.API.Controllers
                 configItem.Component = component;
                 configItem.Key = key;
 
-                // Update the config item in the database
-                var updatedConfigItem = await this.configService.UpdateConfigItemAsync(configItem);
+                var updatedConfigItem = await _configService.UpdateConfigItemAsync(configItem);
 
                 return Ok(updatedConfigItem);
             }
@@ -71,17 +82,17 @@ namespace ConfigHub.API.Controllers
             }
         }
 
-
-
         [HttpGet("appinfo")]
         [AllowAnonymous]
+        [ProducesResponseType(typeof(IEnumerable<AppInfo>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetAllAppInfoAsync()
         {
             try
             {
-                var appInfos = await this.configService.GetAllAppInfoAsync();
+                var appInfos = await _configService.GetAllAppInfoAsync();
 
-                if (appInfos != null && appInfos.Count() > 0)
+                if (appInfos != null && appInfos.Any())
                 {
                     return Ok(appInfos);
                 }
@@ -97,15 +108,17 @@ namespace ConfigHub.API.Controllers
             }
         }
 
-
         [HttpGet("component/{component}/key/{key}")]
         [AllowAnonymous]
+        [ProducesResponseType(typeof(ConfigItem), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetConfigByKey(string component, string key)
         {
             try
             {
-                var applicationId = this.GetApplicationName();
-                var config = await this.configService.GetConfigItemByKeyAndComponent(applicationId, component, key);
+                var applicationId = GetApplicationName();
+                var config = await _configService.GetConfigItemByKeyAndComponent(applicationId, component, key);
                 if (config != null)
                 {
                     return Ok(config);
@@ -122,20 +135,20 @@ namespace ConfigHub.API.Controllers
             }
         }
 
-
-
         [HttpGet("component/{component}")]
         [AllowAnonymous]
         [Paging]
+        [ProducesResponseType(typeof(IEnumerable<ConfigItem>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetAllConfigsByComponent(string component, [FromQuery] bool includeValue = true)
         {
             try
             {
+                var applicationId = GetApplicationName();
+                var (configs, totalCount) = await _configService.GetAllConfigItemsByComponent(applicationId, component, this.Request.GetTake(), this.Request.GetSkip());
 
-                var applicationId = this.GetApplicationName();
-                var (configs, totalCount) = await this.configService.GetAllConfigItemsByComponent(applicationId, component, this.Request.GetTake(), this.Request.GetSkip());
-
-                if (configs != null && configs.Count() > 0)
+                if (configs != null && configs.Any())
                 {
                     if (!includeValue)
                     {
@@ -163,9 +176,11 @@ namespace ConfigHub.API.Controllers
         [HttpGet("search")]
         [AllowAnonymous]
         [Paging]
+        [ProducesResponseType(typeof(IEnumerable<ConfigItem>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> SearchConfigs([FromQuery] string search = "")
         {
-
             if (string.IsNullOrEmpty(search) || search.Length < Constants.MinimumSearchLength)
             {
                 return BadRequest($"Search query must be at least {Constants.MinimumSearchLength} characters long.");
@@ -173,7 +188,7 @@ namespace ConfigHub.API.Controllers
 
             try
             {
-                var (configItems, totalCount) = await this.configService.SearchConfigItems(search, this.Request.GetTake(), this.Request.GetSkip());
+                var (configItems, totalCount) = await _configService.SearchConfigItems(search, this.Request.GetTake(), this.Request.GetSkip());
                 this.Response.Headers.Add(Constants.TotalCountResponseHeader, totalCount.ToString());
                 return Ok(configItems);
             }
@@ -183,6 +198,75 @@ namespace ConfigHub.API.Controllers
                 return StatusCode(500, "An error occurred while fetching configurations.");
             }
         }
+
+        [HttpDelete("{id}")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> DeleteConfigItem(string id)
+        {
+            try
+            {
+                var configItem = await _configService.GetConfigItemByIdAsync(id);
+
+                if (configItem == null)
+                {
+                    return NotFound("Config item not found");
+                }
+
+                await _configService.DeleteConfigItemAsync(id);
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("item/{id}/history")]
+        [AllowAnonymous]
+        [Paging]
+        [ProducesResponseType(typeof(IEnumerable<ConfigItemHistory>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> GetConfigItemHistoryById(string id)
+        {
+            try
+            {
+                var (historyItems, totalCount) = await _configService.GetConfigItemHistoryByIdAsync(id, this.Request.GetTake(), this.Request.GetSkip());
+                this.Response.Headers.Add(Constants.TotalCountResponseHeader, totalCount.ToString());
+                return Ok(historyItems);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching config item history by ID.");
+                return StatusCode(500, "An error occurred while fetching config item history by ID.");
+            }
+        }
+
+        [HttpGet("component/{component}/history")]
+        [AllowAnonymous]
+        [Paging]
+        [ProducesResponseType(typeof(IEnumerable<ConfigItemHistory>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> GetConfigItemHistoryByOperation(string component, [FromQuery] OperationType? operationType = null)
+        {
+            try
+            {
+                var applicationId = this.GetApplicationName();
+                var (historyItems, totalCount) = await _configService.GetConfigItemHistoryByOperationAsync(applicationId, component, operationType, this.Request.GetTake(), this.Request.GetSkip());
+
+                this.Response.Headers.Add(Constants.TotalCountResponseHeader, totalCount.ToString());
+                return Ok(historyItems);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching config item history by operation.");
+                return StatusCode(500, "An error occurred while fetching config item history by operation.");
+            }
+        }
+
 
         private string GetApplicationName()
         {

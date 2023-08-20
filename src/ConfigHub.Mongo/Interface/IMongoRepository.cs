@@ -23,5 +23,7 @@ namespace ConfigHub.Mongo.Interface
         Task InsertManyAsync(IEnumerable<T> documents);
 
         Task UpdateAsync(string id,T entity);
+
+        Task<bool> DeleteByIdAsync(string id);
     }
 }

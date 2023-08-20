@@ -21,9 +21,9 @@ namespace ConfigHub.Client
             return await _configService.GetConfigItemByKeyAndComponent(_configHubOptions.ApplicationName, component, key);
         }
 
-        public async Task<List<ConfigItem>> GetAllConfigItemsByComponent(string component)
+        public async Task<List<ConfigItem>> GetAllConfigItemsByComponent(string component, int take, int skip)
         {
-            return (await _configService.GetAllConfigItemsByComponent(_configHubOptions.ApplicationName, component).ConfigureAwait(false)).ToList();
+            return (await _configService.GetAllConfigItemsByComponent(_configHubOptions.ApplicationName, component, take, skip).ConfigureAwait(false)).ToList();
         }
     }
 }

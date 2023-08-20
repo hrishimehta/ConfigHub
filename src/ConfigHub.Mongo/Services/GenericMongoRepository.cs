@@ -104,5 +104,13 @@ namespace ConfigHub.Mongo.Services
             var filter = Builders<T>.Filter.Eq("_id", objectId);
             await _collection.ReplaceOneAsync(filter, entity);
         }
+
+        public async Task<bool> DeleteByIdAsync(string id)
+        {
+            var filter = Builders<T>.Filter.Eq("_id", new ObjectId(id));
+            var result = await _collection.DeleteOneAsync(filter);
+            return result.DeletedCount > 0;
+        }
+
     }
 }

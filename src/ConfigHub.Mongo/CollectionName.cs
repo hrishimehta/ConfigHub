@@ -10,5 +10,6 @@ namespace ConfigHub.Mongo
     {
         public const string ConfigCollectionName = "Config";
         public const string ApplicationCertificateInfo = "ApplicationCertificateInfo";
+        public const string ConfigHistoryCollectionName = "ConfigHistory";
     }
 }
