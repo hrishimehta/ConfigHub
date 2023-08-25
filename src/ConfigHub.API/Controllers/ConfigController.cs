@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using ConfigHub.Shared.Entity.ConfigHub.Domain.Entity;
 using ConfigHub.Shared.Entity;
 using Microsoft.AspNetCore.Builder;
+using MongoDB.Driver;
 
 namespace ConfigHub.API.Controllers
 {
@@ -45,6 +46,10 @@ namespace ConfigHub.API.Controllers
                 await _configService.AddConfigItemAsync(configItem);
 
                 return CreatedAtAction(nameof(GetConfigByKey), new { component = configItem.Component, key = configItem.Key }, configItem);
+            }
+            catch (MongoWriteException ex) when (ex.WriteError.Code == 11000) // Error code for duplicate key violation
+            {
+                return StatusCode(500, $"Duplicate key error {ex.Message}");
             }
             catch (Exception ex)
             {
