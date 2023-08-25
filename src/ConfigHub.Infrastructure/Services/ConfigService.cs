@@ -7,10 +7,6 @@ using ConfigHub.Shared.Entity;
 using ConfigHub.Shared.Entity.ConfigHub.Domain.Entity;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ConfigHub.Infrastructure.Services
 {
@@ -19,12 +15,13 @@ namespace ConfigHub.Infrastructure.Services
         private readonly IMongoRepository<ConfigItem> configItemRepository;
         private readonly IMongoRepository<ConfigItemHistory> configItemHistoryRepository;
         private readonly IMongoRepository<CertificateMappingDocument> certificateMappingRepo;
-
+        private readonly IMongoRepository<AppInfo> appInfoRepository;
         public ConfigService(IMongoRepositoryFactory mongoRepositoryFactory)
         {
             configItemRepository = mongoRepositoryFactory.GetRepository<ConfigItem>(DBNames.ConfigHubDBName, CollectionName.ConfigCollectionName);
             certificateMappingRepo = mongoRepositoryFactory.GetRepository<CertificateMappingDocument>(DBNames.ConfigHubDBName, CollectionName.ApplicationCertificateInfo);
             configItemHistoryRepository = mongoRepositoryFactory.GetRepository<ConfigItemHistory>(DBNames.ConfigHubDBName, CollectionName.ConfigHistoryCollectionName);
+            appInfoRepository = mongoRepositoryFactory.GetRepository<AppInfo>(DBNames.ConfigHubDBName, CollectionName.AppInfoCollectionName);
         }
 
         public async Task<ConfigItem> GetConfigItemByIdAsync(string id)
@@ -56,10 +53,17 @@ namespace ConfigHub.Infrastructure.Services
 
         public async Task<ConfigItem> AddConfigItemAsync(ConfigItem configItem)
         {
+            ValidateLinkedKeyAndValue(configItem.LinkedKey, configItem.Value);
+            await ValidateApplicationAndComponentAsync(configItem.ApplicationName, configItem.Component);
+
+            configItem.LastUpdatedDateTime = DateTime.UtcNow;
+            configItem.CreatedDateTime = DateTime.UtcNow;
             await configItemRepository.InsertOneAsync(configItem);
             await CreateHistoryEntry(configItem, OperationType.Create, configItem.LastUpdatedBy, new List<string>());
             return configItem;
         }
+
+
 
         public async Task DeleteConfigItemAsync(string id)
         {
@@ -74,6 +78,9 @@ namespace ConfigHub.Infrastructure.Services
 
         public async Task<ConfigItem> UpdateConfigItemAsync(ConfigItem configItem)
         {
+            ValidateLinkedKeyAndValue(configItem.LinkedKey, configItem.Value);
+            await ValidateApplicationAndComponentAsync(configItem.ApplicationName, configItem.Component);
+
             var existingConfig = await GetConfigItemByKeyAndComponent(configItem.ApplicationName, configItem.Component, configItem.Key);
             var changedProperties = FindChangedProperties(existingConfig, configItem);
 
@@ -94,17 +101,10 @@ namespace ConfigHub.Infrastructure.Services
 
         public async Task<IEnumerable<AppInfo>> GetAllAppInfoAsync()
         {
-            var filter = Builders<ConfigItem>.Filter.Empty;
-            var projection = Builders<ConfigItem>.Projection.Include(item => item.ApplicationName).Include(item => item.Component);
-            var configItems = await configItemRepository.FindAllAsync(filter, projection);
-
-            var uniqueAppInfoList = configItems
-                .GroupBy(item => new { item.ApplicationName })
-                .Select(group => new AppInfo { ApplicationName = group.Key.ApplicationName, Components = group.Select(item => item.Component).Distinct().ToList() })
-                .Distinct();
-
-            return uniqueAppInfoList;
+            var filter = Builders<AppInfo>.Filter.Empty;
+            return await appInfoRepository.FindAllAsync(filter);
         }
+
 
         public async Task<(IEnumerable<ConfigItem> configItems, long totalCount)> GetAllConfigItemsByComponent(string applicationId, string componentId, int take, int skip)
         {
@@ -129,16 +129,12 @@ namespace ConfigHub.Infrastructure.Services
         public async Task<string> GetLinkedValue(ConfigItem configItem)
         {
             string linkedValue = configItem.Value;
-            if (configItem.LinkedKey != null)
+            if (!string.IsNullOrWhiteSpace(configItem.LinkedKey))
             {
-                var linkedParts = configItem.LinkedKey.Split('_', StringSplitOptions.RemoveEmptyEntries);
-                if (linkedParts.Length == 3)
+                var linkedConfigItem = await GetConfigItemByLinkedKeyAsync(configItem.LinkedKey).ConfigureAwait(false);
+                if (linkedConfigItem != null)
                 {
-                    var linkedApplicationName = linkedParts[0];
-                    var linkedComponent = linkedParts[1];
-                    var linkedKey = linkedParts[2];
-
-                    linkedValue = (await GetConfigItemByKeyAndComponent(linkedApplicationName, linkedComponent, linkedKey).ConfigureAwait(false)).Value;
+                    linkedValue = linkedConfigItem.Value;
                 }
             }
 
@@ -155,7 +151,7 @@ namespace ConfigHub.Infrastructure.Services
                 Component = configItem.Component, // Add Component to history entry
                 OperationType = operationType,
                 ChangedBy = changedBy,
-                ChangeDate = DateTime.UtcNow,
+                LastModifiedDateTime = DateTime.UtcNow,
                 ChangedProperties = changedProperties
             };
 
@@ -212,6 +208,198 @@ namespace ConfigHub.Infrastructure.Services
             var historyItems = await configItemHistoryRepository.FindAllAsync(filter, take, skip);
 
             return (historyItems, totalCount);
+        }
+
+        public async Task<ComponentInfo> AddComponentAsync(string applicationName, ComponentInfo component)
+        {
+            if (component == null)
+            {
+                throw new ArgumentNullException(nameof(component));
+            }
+
+            var filter = Builders<AppInfo>.Filter.Eq(x => x.ApplicationName, applicationName);
+
+            // Fetch the existing AppInfo
+            var existingAppInfo = await appInfoRepository.FindOneAsync(filter);
+
+
+            if (existingAppInfo == null)
+            {
+                throw new InvalidOperationException("Application not found.");
+            }
+
+            if (existingAppInfo.Components == null)
+            {
+                existingAppInfo.Components = new List<ComponentInfo>();
+            }
+
+            if (existingAppInfo.Components.Any(c => c.Name == component.Name) == true)
+            {
+                throw new InvalidOperationException("Component name already exists.");
+            }
+
+            // Assign a new Id to the component
+            component.Id = ObjectId.GenerateNewId().ToString();
+
+
+            // Update the Components list in-memory
+            existingAppInfo.Components.Add(component);
+
+            // Update the AppInfo document
+            await appInfoRepository.UpdateAsync(existingAppInfo.Id, existingAppInfo);
+
+            // Check if the component was added
+            if (existingAppInfo.Components.Contains(component))
+            {
+                return component;
+            }
+            else
+            {
+                throw new InvalidOperationException("Component was not added successfully.");
+            }
+        }
+
+
+        public async Task<ComponentInfo> CloneComponentAsync(string applicationName, CloneComponentRequest request)
+        {
+            var clonedComponent = new ComponentInfo
+            {
+                Id = ObjectId.GenerateNewId().ToString(),
+                Name = request.TargetComponentName,
+            };
+
+            await AddComponentAsync(applicationName, clonedComponent);
+
+            const int pageSize = 500;
+            var configItemsResponse = await GetAllConfigItemsByComponent(applicationName, request.SourceComponentName, take: pageSize, skip: 0);
+            var totalConfigItemCount = configItemsResponse.totalCount;
+
+            var tasks = new List<Task>();
+
+            for (int skip = 0; skip < totalConfigItemCount; skip += pageSize)
+            {
+                var configItemsPage = await GetAllConfigItemsByComponent(applicationName, request.SourceComponentName, take: pageSize, skip: skip);
+
+                foreach (var sourceConfigItem in configItemsPage.configItems)
+                {
+                    var clonedConfigItem = new ConfigItem
+                    {
+                        ApplicationName = applicationName,
+                        Component = request.TargetComponentName,
+                        Key = sourceConfigItem.Key,
+                        Value = request.CopyValuesFromSource ? sourceConfigItem.Value : request.DefaultValue,
+                        LinkedKey = sourceConfigItem.LinkedKey,
+                        IsEncrypted = sourceConfigItem.IsEncrypted,
+                        LastUpdatedDateTime = DateTime.UtcNow,
+                        CreatedDateTime = DateTime.UtcNow
+                    };
+
+                    tasks.Add(AddConfigItemAsync(clonedConfigItem));
+                }
+            }
+
+            await Task.WhenAll(tasks);
+
+            return clonedComponent;
+        }
+
+
+
+        public async Task<bool> DeleteComponentAsync(string appName, string componentName)
+        {
+            await ValidateApplicationAndComponentAsync(appName, componentName);
+
+            var appInfo = await appInfoRepository.FindOneAsync(a => a.ApplicationName == appName);
+
+            if (appInfo != null && appInfo.Components != null)
+            {
+                appInfo.Components.RemoveAll(c => c.Name == componentName);
+
+                await appInfoRepository.UpdateAsync(appInfo.Id, appInfo);
+
+                var updatedAppInfo = await appInfoRepository.FindOneAsync(a => a.ApplicationName == appName);
+                if (updatedAppInfo == null || updatedAppInfo.Components.Any(c => c.Name == componentName))
+                {
+                    return false;
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+
+        public async Task<AppInfo> AddApplicationAsync(AppInfo appInfo)
+        {
+            if (appInfo == null)
+            {
+                throw new ArgumentNullException(nameof(appInfo));
+            }
+
+            await appInfoRepository.InsertOneAsync(appInfo);
+
+            return appInfo;
+        }
+
+        private async Task<ConfigItem> GetConfigItemByLinkedKeyAsync(string formattedLinkedKey)
+        {
+            var linkedParts = formattedLinkedKey.Split('_', StringSplitOptions.RemoveEmptyEntries);
+            if (linkedParts.Length == 3)
+            {
+                var linkedApplicationName = linkedParts[0];
+                var linkedComponent = linkedParts[1];
+                var linkedKey = linkedParts[2];
+
+                return await GetConfigItemByKeyAndComponent(linkedApplicationName, linkedComponent, linkedKey).ConfigureAwait(false);
+            }
+
+            return null;
+        }
+
+
+        private async Task ValidateApplicationAndComponentAsync(string applicationName, string componentName)
+        {
+            var appInfo = await appInfoRepository.FindOneAsync(a => a.ApplicationName == applicationName);
+            if (appInfo == null)
+            {
+                throw new ArgumentException("Invalid ApplicationName.");
+            }
+
+            if (!appInfo.Components.Any(c => c.Name == componentName))
+            {
+                throw new ArgumentException("Invalid Component.");
+            }
+        }
+
+        private async void ValidateLinkedKeyAndValue(string linkedKey, string value)
+        {
+            if (string.IsNullOrWhiteSpace(linkedKey) && string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException("Either LinkedKey or Value must be provided.");
+            }
+
+            if (!string.IsNullOrWhiteSpace(linkedKey) && !string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException("Both LinkedKey and Value cannot be provided.");
+            }
+
+            if (string.IsNullOrWhiteSpace(linkedKey))
+            {
+                await ValidateLinkedKeyAsync(linkedKey);
+            }
+        }
+
+        private async Task ValidateLinkedKeyAsync(string linkedKey)
+        {
+            if (!string.IsNullOrWhiteSpace(linkedKey))
+            {
+                var linkedConfigItem = await GetConfigItemByLinkedKeyAsync(linkedKey).ConfigureAwait(false);
+                if (linkedConfigItem == null)
+                {
+                    throw new ArgumentException("LinkedKey does not correspond to a valid ConfigItem.");
+                }
+            }
         }
 
     }

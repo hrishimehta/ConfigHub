@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ConfigHub.Mongo
+﻿namespace ConfigHub.Mongo
 {
     public static class CollectionName
     {
-        public const string ConfigCollectionName = "Config";
-        public const string ApplicationCertificateInfo = "ApplicationCertificateInfo";
-        public const string ConfigHistoryCollectionName = "ConfigHistory";
+        public const string ConfigCollectionName = "Temp_Config";
+        public const string ApplicationCertificateInfo = "Temp_ApplicationCertificateInfo";
+        public const string ConfigHistoryCollectionName = "Temp_ConfigHistory";
+
+        public const string AppInfoCollectionName = "Temp_AppInfo";
     }
 }

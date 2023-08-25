@@ -18,7 +18,7 @@ namespace ConfigHub.Shared.Entity
             public string Key { get; set; }
 
             public OperationType OperationType { get; set; }
-            public DateTime ChangeDate { get; set; }
+            public DateTime LastModifiedDateTime { get; set; }
             public List<string> ChangedProperties { get; set; }
             public string ChangedBy { get; set; }
             public string ApplicationName { get; set; }

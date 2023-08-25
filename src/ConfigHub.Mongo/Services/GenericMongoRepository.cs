@@ -105,11 +105,20 @@ namespace ConfigHub.Mongo.Services
             await _collection.ReplaceOneAsync(filter, entity);
         }
 
+        public async Task UpdateOneAsync(FilterDefinition<T> filter, UpdateDefinition<T> update)
+        {
+            await _collection.UpdateOneAsync(filter, update);
+        }
+
         public async Task<bool> DeleteByIdAsync(string id)
         {
             var filter = Builders<T>.Filter.Eq("_id", new ObjectId(id));
             var result = await _collection.DeleteOneAsync(filter);
             return result.DeletedCount > 0;
+        }
+        public async Task<T> FindOneAsync(FilterDefinition<T> filter)
+        {
+            return await _collection.Find(filter).FirstOrDefaultAsync();
         }
 
     }

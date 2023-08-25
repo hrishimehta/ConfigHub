@@ -1,8 +1,6 @@
 ﻿using ConfigHub.Domain.Entity;
-using ConfigHub.Shared.Entity.ConfigHub.Domain.Entity;
 using ConfigHub.Shared.Entity;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using ConfigHub.Shared.Entity.ConfigHub.Domain.Entity;
 
 namespace ConfigHub.Domain.Interface
 {
@@ -21,5 +19,10 @@ namespace ConfigHub.Domain.Interface
         Task<string> GetLinkedValue(ConfigItem configItem);
         Task<(IEnumerable<ConfigItemHistory> historyItems, long totalCount)> GetConfigItemHistoryByIdAsync(string id, int take, int skip);
         Task<(IEnumerable<ConfigItemHistory> historyItems, long totalCount)> GetConfigItemHistoryByComponentAsync(string applicationId, string componentId, OperationType? operationType, int take, int skip);
+
+        Task<AppInfo> AddApplicationAsync(AppInfo appInfo);
+        Task<ComponentInfo> AddComponentAsync(string applicationName, ComponentInfo component);
+        Task<ComponentInfo> CloneComponentAsync(string applicationName, CloneComponentRequest request);
+        Task<bool> DeleteComponentAsync(string applicationName, string componentName);
     }
 }

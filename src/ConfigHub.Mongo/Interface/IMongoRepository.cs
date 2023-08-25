@@ -24,6 +24,10 @@ namespace ConfigHub.Mongo.Interface
 
         Task UpdateAsync(string id,T entity);
 
+        Task UpdateOneAsync(FilterDefinition<T> filter, UpdateDefinition<T> update);
+
+        Task<T> FindOneAsync(FilterDefinition<T> filter);
+
         Task<bool> DeleteByIdAsync(string id);
     }
 }

@@ -12,6 +12,7 @@ using System.Net;
 using Microsoft.Extensions.Logging;
 using ConfigHub.Shared.Entity.ConfigHub.Domain.Entity;
 using ConfigHub.Shared.Entity;
+using Microsoft.AspNetCore.Builder;
 
 namespace ConfigHub.API.Controllers
 {
@@ -264,6 +265,82 @@ namespace ConfigHub.API.Controllers
             {
                 _logger.LogError(ex, "Error occurred while fetching config item history by operation.");
                 return StatusCode(500, "An error occurred while fetching config item history by operation.");
+            }
+        }
+
+        [HttpPost("app")]
+        [ProducesResponseType(typeof(AppInfo), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> AddApplication([FromBody] AppInfo appInfo)
+        {
+            try
+            {
+                var addedApp = await _configService.AddApplicationAsync(appInfo);
+                return Created("", new { Message = "Application added successfully", AppName = addedApp.ApplicationName });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPost("{appId}/component")]
+        [ProducesResponseType(typeof(ComponentInfo), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> AddComponent(string appId, [FromBody] ComponentInfo component)
+        {
+            try
+            {
+                var addedComponent = await _configService.AddComponentAsync(appId, component);
+                return Created("", new { Message = "Component added successfully", ComponentName = addedComponent.Name });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPost("{appId}/component/clone")]
+        [ProducesResponseType(typeof(ComponentInfo), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> CloneComponent(string appId, [FromBody] CloneComponentRequest request)
+        {
+            try
+            {
+                var clonedComponent = await _configService.CloneComponentAsync(appId, request);
+                return Created("", new { Message = "Component cloned successfully", ComponentName = clonedComponent.Name });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpDelete("application/{applicationName}/component/{componentName}")]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> DeleteComponent(string applicationName, string componentName)
+        {
+            try
+            {
+                var deleted = await _configService.DeleteComponentAsync(applicationName, componentName);
+
+                if (deleted)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return NotFound("Component not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
